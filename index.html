@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telecom Ops Analytics · Johnny Trigo Data Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────── */
+:root{
+  --ink:    #06080C;
+  --ink2:   #0B0E15;
+  --ink3:   #111620;
+  --card:   #0F1319;
+  --gold:   #C8922A;
+  --gold2:  #E8AE50;
+  --gold3:  #F5C97A;
+  --cream:  #EDE0C8;
+  --text:   #D8CFC0;
+  --muted:  #6E7585;
+  --line:   rgba(200,146,42,.18);
+  --ff-d:   'Cormorant Garamond', serif;
+  --ff-b:   'Outfit', sans-serif;
+  --ff-m:   'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--ff-b);font-size:16px;line-height:1.7;overflow-x:hidden;cursor:none}
+
+/* ── CUSTOM CURSOR ──────────────────────────────────────────── */
+.cur{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.cur-dot{width:6px;height:6px;background:var(--gold2);border-radius:50%;transform:translate(-50%,-50%);transition:transform .1s}
+.cur-ring{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;transform:translate(-50%,-50%);transition:transform .12s,width .2s,height .2s,opacity .2s;opacity:.6}
+body:has(a:hover) .cur-ring{width:52px;height:52px;opacity:1}
+
+/* ── GRAIN OVERLAY ──────────────────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.5}
+
+/* ── NAV ────────────────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(6,8,12,.95),transparent)}
+.nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-mono{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:.85rem;color:var(--gold);font-weight:600}
+.nav-name{font-family:var(--ff-b);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;gap:2.5rem}
+.nav-links a{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--gold2)}
+.nav-back{font-family:var(--ff-m);font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s;letter-spacing:.06em}
+.nav-back:hover{color:var(--gold)}
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:8rem 3rem 5rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(200,146,42,.06) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,black 0%,transparent 80%)}
+.hero-content{position:relative;max-width:1200px;margin:0 auto;width:100%}
+.hero-tag{font-family:var(--ff-m);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:0;animation:up .7s .1s forwards}
+.hero-tag::before{content:'';display:inline-block;width:2rem;height:1px;background:var(--gold);margin-right:.75rem;vertical-align:middle}
+.hero-h1{font-family:var(--ff-d);font-size:clamp(3.5rem,8vw,8rem);font-weight:300;line-height:.95;margin-bottom:2rem;opacity:0;animation:up .7s .2s forwards}
+.hero-h1 strong{font-weight:700;display:block}
+.hero-h1 em{font-style:italic;color:var(--gold2)}
+.hero-desc{font-size:1rem;color:var(--muted);max-width:560px;margin-bottom:3.5rem;line-height:1.8;opacity:0;animation:up .7s .3s forwards}
+.hero-stats{display:grid;grid-template-columns:repeat(3,auto);gap:0;width:fit-content;border:1px solid var(--line);opacity:0;animation:up .7s .4s forwards}
+.hero-stat{padding:1.5rem 2.5rem;position:relative}
+.hero-stat+.hero-stat{border-left:1px solid var(--line)}
+.hero-stat-n{font-family:var(--ff-d);font-size:3rem;font-weight:700;color:var(--gold2);line-height:1}
+.hero-stat-l{font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.3rem}
+.hero-scroll{position:absolute;bottom:3rem;left:3rem;display:flex;align-items:center;gap:.75rem;font-family:var(--ff-m);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:0;animation:up .7s .6s forwards}
+.hero-scroll::before{content:'';width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--gold));animation:pulse 2s infinite}
+.hero-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem;opacity:0;animation:up .7s .35s forwards}
+.chip{font-family:var(--ff-m);font-size:.68rem;letter-spacing:.08em;padding:.3rem .9rem;border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+.chip.gold{border-color:rgba(200,146,42,.4);color:var(--gold)}
+
+/* ── DIVIDER ────────────────────────────────────────────────── */
+.gold-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
+
+/* ── SECTIONS ───────────────────────────────────────────────── */
+.section{padding:7rem 3rem;max-width:1200px;margin:0 auto}
+.section-full{padding:7rem 0;background:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-full .inner{max-width:1200px;margin:0 auto;padding:0 3rem}
+.label{font-family:var(--ff-m);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem}
+.label::before{content:'';width:1.5rem;height:1px;background:var(--gold)}
+.display{font-family:var(--ff-d);font-size:clamp(2.2rem,5vw,4.5rem);font-weight:300;line-height:1.1;margin-bottom:2rem}
+.display strong{font-weight:700}
+.display em{font-style:italic;color:var(--gold2)}
+.body{font-size:.98rem;color:var(--muted);line-height:1.85;max-width:700px}
+.body+.body{margin-top:1rem}
+
+/* ── PROBLEMA CARDS ─────────────────────────────────────────── */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:3rem}
+.prob-card{background:var(--ink2);padding:2.25rem 2rem;position:relative;overflow:hidden;transition:background .3s}
+.prob-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.prob-card:hover{background:var(--ink3)}
+.prob-card:hover::after{transform:scaleX(1)}
+.prob-num{font-family:var(--ff-d);font-size:4rem;font-weight:700;color:rgba(200,146,42,.12);line-height:1;margin-bottom:1rem}
+.prob-title{font-family:var(--ff-d);font-size:1.4rem;font-weight:600;margin-bottom:.75rem;color:var(--cream)}
+.prob-body{font-size:.875rem;color:var(--muted);line-height:1.75}
+
+/* ── ARCHITECTURE ───────────────────────────────────────────── */
+.arch-wrap{background:var(--card);border:1px solid var(--line);padding:2.5rem;margin-top:3rem;position:relative;overflow:hidden}
+.arch-wrap::before{content:'STAR SCHEMA';position:absolute;top:1.5rem;right:2rem;font-family:var(--ff-m);font-size:.65rem;letter-spacing:.2em;color:rgba(200,146,42,.2);text-transform:uppercase}
+.schema-scroll{overflow-x:auto;padding:.5rem 0}
+
+/* ── CODE SECTION ───────────────────────────────────────────── */
+.code-wrap{margin-top:3rem}
+.code-nav{display:flex;border-bottom:1px solid var(--line);overflow-x:auto}
+.ctab{font-family:var(--ff-m);font-size:.72rem;letter-spacing:.08em;padding:.85rem 1.5rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;text-transform:uppercase}
+.ctab:hover{color:var(--text)}
+.ctab.on{color:var(--gold2);border-bottom-color:var(--gold)}
+.cpanel{display:none;background:#070A0F;border:1px solid var(--line);border-top:none}
+.cpanel.on{display:block}
+.cpanel pre{margin:0!important;background:transparent!important;font-size:.79rem!important;line-height:1.65!important;max-height:440px;overflow-y:auto;padding:1.75rem 2rem!important}
+.cpanel pre::-webkit-scrollbar{width:3px}
+.cpanel pre::-webkit-scrollbar-thumb{background:var(--line)}
+/* custom prism theme matching gold palette */
+.token.keyword{color:#C8922A!important}
+.token.function{color:#E8AE50!important}
+.token.string{color:#9DB882!important}
+.token.comment{color:#3E4A5A!important;font-style:italic}
+.token.number{color:#8BBCD4!important}
+.token.operator,.token.punctuation{color:#556070!important}
+
+/* ── DAX GRID ───────────────────────────────────────────────── */
+.dax-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);margin-top:3rem}
+.dax-card{background:var(--card);padding:0;overflow:hidden}
+.dax-top{background:rgba(200,146,42,.07);border-bottom:1px solid var(--line);padding:.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.dax-fn{font-family:var(--ff-m);font-size:.8rem;color:var(--gold2);font-weight:500}
+.dax-badge{font-family:var(--ff-m);font-size:.62rem;letter-spacing:.08em;padding:.2rem .6rem;background:rgba(200,146,42,.1);color:var(--gold);text-transform:uppercase}
+.dax-code-block{padding:1.25rem 1.5rem}
+.dax-pre{font-family:var(--ff-m);font-size:.77rem;line-height:1.6;color:#C8D8E8;white-space:pre;overflow-x:auto}
+.dax-desc{padding:.85rem 1.5rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);line-height:1.65}
+.kw{color:var(--gold)}
+.fn{color:var(--gold2)}
+.val{color:#8BBCD4}
+.cmt{color:#3E4A5A;font-style:italic}
+
+/* ── DASHBOARD MOCKUP ───────────────────────────────────────── */
+.dash-frame{background:var(--card);border:1px solid var(--line);margin-top:3rem;overflow:hidden}
+.dash-titlebar{background:#0A0C10;border-bottom:1px solid var(--line);padding:.7rem 1.25rem;display:flex;align-items:center;gap:.5rem}
+.dash-dot{width:9px;height:9px;border-radius:50%}
+.dash-title{font-family:var(--ff-m);font-size:.72rem;color:var(--muted);margin-left:.75rem;letter-spacing:.06em}
+.dash-ribbon{background:rgba(200,146,42,.08);border-bottom:1px solid var(--line);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.5rem}
+.dash-rb-item{font-family:var(--ff-m);font-size:.65rem;color:var(--muted);letter-spacing:.06em;padding:.25rem .6rem;cursor:pointer;transition:color .2s}
+.dash-rb-item.on{color:var(--gold);border-bottom:1px solid var(--gold)}
+.dash-body{padding:1.25rem 1.5rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+.kpi{background:var(--ink2);border:1px solid var(--line);padding:1rem 1.25rem;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.ka::before{background:var(--gold)}
+.kpi.kb::before{background:#5CA870}
+.kpi.kc::before{background:#5B8FC8}
+.kpi.kd::before{background:#C06060}
+.kpi-l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.kpi-v{font-family:var(--ff-d);font-size:1.9rem;font-weight:700;line-height:1}
+.kpi.ka .kpi-v{color:var(--gold2)}
+.kpi.kb .kpi-v{color:#7DC492}
+.kpi.kc .kpi-v{color:#7BB0E0}
+.kpi.kd .kpi-v{color:#D48080}
+.kpi-delta{font-size:.65rem;margin-top:.3rem}
+.up{color:#7DC492}
+.dn{color:#D48080}
+.charts-row{display:grid;grid-template-columns:2.2fr 1fr;gap:.75rem;margin-bottom:1rem}
+.chart-box{background:var(--ink2);border:1px solid var(--line);padding:1rem 1.25rem}
+.chart-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;font-weight:500}
+.bar-list{display:flex;flex-direction:column;gap:.5rem}
+.b-row{display:flex;align-items:center;gap:.75rem}
+.b-lbl{font-size:.68rem;color:var(--muted);width:110px;text-align:right;flex-shrink:0}
+.b-track{flex:1;background:rgba(255,255,255,.04);border-radius:1px;height:7px;overflow:hidden}
+.b-fill{height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.b-val{font-family:var(--ff-m);font-size:.65rem;color:var(--muted);width:40px;text-align:right;flex-shrink:0}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.75rem}
+.ring-legend{display:flex;gap:.75rem;font-size:.65rem}
+.ring-legend span{display:flex;align-items:center;gap:.3rem}
+.ring-legend span::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.table-box{background:var(--ink2);border:1px solid var(--line);overflow:hidden}
+.t-head{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1fr;padding:.5rem 1.25rem;background:rgba(200,146,42,.05);border-bottom:1px solid var(--line)}
+.t-head span,.t-row span{font-size:.65rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+.t-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1fr;padding:.55rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.03)}
+.t-row:last-child{border:none}
+.t-row span{color:var(--text);text-transform:none;font-size:.72rem;letter-spacing:0;font-weight:400}
+.pill{display:inline-block;font-family:var(--ff-m);font-size:.6rem;padding:.15rem .55rem;letter-spacing:.04em}
+.pill-ok{background:rgba(92,168,112,.15);color:#7DC492}
+.pill-warn{background:rgba(200,146,42,.15);color:var(--gold)}
+
+/* ── RESULT SECTION ─────────────────────────────────────────── */
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:3rem}
+.r-card{background:var(--ink2);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s}
+.r-card:hover{background:var(--ink3)}
+.r-num{font-family:var(--ff-d);font-size:4.5rem;font-weight:700;line-height:1;color:var(--gold2);margin-bottom:.5rem}
+.r-label{font-family:var(--ff-b);font-size:.82rem;font-weight:600;color:var(--cream);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.06em}
+.r-body{font-size:.875rem;color:var(--muted);line-height:1.7}
+.r-card::before{content:attr(data-n);position:absolute;bottom:-1rem;right:1rem;font-family:var(--ff-d);font-size:8rem;font-weight:700;color:rgba(200,146,42,.04);line-height:1;pointer-events:none}
+
+/* ── STACK ──────────────────────────────────────────────────── */
+.stack-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.stack-col-title{font-family:var(--ff-m);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--line)}
+.stack-item{font-size:.875rem;color:var(--muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:.75rem}
+.stack-item::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;opacity:.6}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+.cta-wrap{text-align:center;padding:8rem 3rem;background:var(--ink2);border-top:1px solid var(--line)}
+.cta-wrap .display{margin:0 auto 1.5rem}
+.cta-wrap .body{margin:0 auto 2.5rem}
+.btn-row{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.25rem;font-family:var(--ff-m);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .25s;cursor:none}
+.btn-gold{background:var(--gold);color:var(--ink);font-weight:600}
+.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{border:1px solid var(--line);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── SCROLL REVEAL ──────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .75s ease,transform .75s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:0}50%{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .hero,.section{padding-left:1.5rem;padding-right:1.5rem}
+  .section-full .inner{padding:0 1.5rem}
+  .hero-stats,.prob-grid,.dax-grid,.result-grid,.stack-cols,.kpi-row,.charts-row{grid-template-columns:1fr}
+  .t-head,.t-row{grid-template-columns:2fr 1fr 1fr}
+  .t-head span:nth-child(4),.t-head span:nth-child(5),
+  .t-row span:nth-child(4),.t-row span:nth-child(5){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cur"><div class="cur-dot" id="cd"></div></div>
+<div class="cur" style="position:fixed"><div class="cur-ring" id="cr"></div></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-mono">T</div>
+    <span class="nav-name">Johnny Trigo</span>
+  </a>
+  <div class="nav-links">
+    <a href="#problema">Desafio</a>
+    <a href="#arquitetura">Arquitetura</a>
+    <a href="#sql">SQL</a>
+    <a href="#pbi">Power BI</a>
+    <a href="#resultado">Resultado</a>
+  </div>
+  <a href="#" class="nav-back">← Portfólio</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Case · SQL + Power BI · Star Schema</div>
+    <h1 class="hero-h1">
+      <strong>Telecom Ops</strong>
+      <em>Analytics</em>
+    </h1>
+    <div class="hero-chips">
+      <span class="chip gold">T-SQL Avançado</span>
+      <span class="chip gold">Power BI Expert</span>
+      <span class="chip gold">DAX</span>
+      <span class="chip">Star Schema</span>
+      <span class="chip">Window Functions</span>
+      <span class="chip">DataOps</span>
+      <span class="chip">ETL / ELT</span>
+    </div>
+    <p class="hero-desc">Pipeline completo de dados para uma operadora de telecomunicações — do modelo relacional ao dashboard executivo. Da bagunça em silos à visibilidade em tempo real.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-n" id="c1">0%</div>
+        <div class="hero-stat-l">Aderência ao SLA</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n" id="c2">0h</div>
+        <div class="hero-stat-l">Lead Time Médio</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n" id="c3">0</div>
+        <div class="hero-stat-l">Queries analíticas</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div></div>
+    <span>Explorar o case</span>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- O DESAFIO -->
+<section class="section" id="problema">
+  <div class="label reveal">01 · O desafio</div>
+  <h2 class="display reveal">O problema que<br><strong>esse projeto <em>resolve</em></strong></h2>
+  <p class="body reveal">Times de operações de telecomunicações gerenciam centenas de demandas mensais — atualizações de tabelas de preços, configurações de produto, relatórios executivos — sem nenhuma visibilidade centralizada de performance.</p>
+  <p class="body reveal">Os dados <em>existem</em>, mas estão em silos: planilhas, e-mails, Planner, sistemas legados. Sem integração, sem histórico, sem SLA monitorado em tempo real.</p>
+
+  <div class="prob-grid reveal">
+    <div class="prob-card">
+      <div class="prob-num">01</div>
+      <div class="prob-title">Dados em silos</div>
+      <p class="prob-body">Informações espalhadas entre Planner, Forms e planilhas Excel sem integração. Nenhuma fonte central da verdade. A equipe gasta horas compilando relatórios manualmente.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">02</div>
+      <div class="prob-title">SLA invisível</div>
+      <p class="prob-body">Sem monitoramento de lead time ou aderência a SLA em tempo real. Violações descobertas somente no relatório mensal — tarde demais para ação corretiva.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">03</div>
+      <div class="prob-title">Retrabalho oculto</div>
+      <p class="prob-body">Taxa de correções não rastreada por categoria ou analista. Impossível identificar padrões de qualidade, gargalos e oportunidades de melhoria de processo.</p>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- ARQUITETURA -->
+<section class="section" id="arquitetura">
+  <div class="label reveal">02 · Arquitetura</div>
+  <h2 class="display reveal">Star Schema:<br><strong>o modelo <em>de dados</em></strong></h2>
+  <p class="body reveal">Arquitetura dimensional com uma tabela fato central e quatro dimensões. Otimizada para queries analíticas e consumo direto pelo Power BI via DirectQuery ou Import Mode.</p>
+
+  <div class="arch-wrap reveal">
+    <div class="schema-scroll">
+      <svg viewBox="0 0 800 460" width="100%" style="min-width:600px" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M2 2L8 5L2 8" fill="none" stroke="#C8922A" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+        </defs>
+
+        <!-- Center glow -->
+        <ellipse cx="400" cy="230" rx="120" ry="90" fill="rgba(200,146,42,.04)"/>
+
+        <!-- FATO CENTER -->
+        <rect x="290" y="155" width="220" height="155" rx="3" fill="#0B0E14" stroke="#C8922A" stroke-width="1.2"/>
+        <rect x="290" y="155" width="220" height="26" rx="3" fill="rgba(200,146,42,.15)"/>
+        <rect x="290" y="167" width="220" height="14" fill="rgba(200,146,42,.15)"/>
+        <text x="400" y="172" text-anchor="middle" fill="#E8AE50" font-size="10.5" font-weight="600" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">FCT_SOLICITACOES</text>
+        <text x="304" y="200" fill="#6E7585" font-size="9.5" font-family="'JetBrains Mono',monospace">sk_solicitacao   PK</text>
+        <text x="304" y="216" fill="#556070" font-size="9.5" font-family="'JetBrains Mono',monospace">sk_data_abertura  FK</text>
+        <text x="304" y="232" fill="#556070" font-size="9.5" font-family="'JetBrains Mono',monospace">sk_analista       FK</text>
+        <text x="304" y="248" fill="#556070" font-size="9.5" font-family="'JetBrains Mono',monospace">sk_categoria      FK</text>
+        <text x="304" y="264" fill="#556070" font-size="9.5" font-family="'JetBrains Mono',monospace">sk_produto        FK</text>
+        <text x="304" y="280" fill="#C8922A" font-size="9.5" font-family="'JetBrains Mono',monospace">nr_lead_time_horas</text>
+        <text x="304" y="296" fill="#C8922A" font-size="9.5" font-family="'JetBrains Mono',monospace">fl_dentro_sla · fl_correcao</text>
+
+        <!-- DIM DATA top -->
+        <rect x="296" y="18" width="208" height="96" rx="3" fill="#0B0E14" stroke="#8BBCD4" stroke-width=".8"/>
+        <rect x="296" y="18" width="208" height="22" rx="3" fill="rgba(139,188,212,.1)"/>
+        <rect x="296" y="28" width="208" height="12" fill="rgba(139,188,212,.1)"/>
+        <text x="400" y="34" text-anchor="middle" fill="#8BBCD4" font-size="10" font-weight="600" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">DIM_DATA</text>
+        <text x="308" y="56" fill="#556070" font-size="9" font-family="'JetBrains Mono',monospace">sk_data  PK</text>
+        <text x="308" y="70" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">dt_data · nr_ano · nr_mes</text>
+        <text x="308" y="84" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nm_mes · nm_trimestre</text>
+        <text x="308" y="98" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">fl_dia_util · nr_semana_ano</text>
+        <line x1="400" y1="114" x2="400" y2="155" stroke="#8BBCD4" stroke-width=".7" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+        <!-- DIM ANALISTA left -->
+        <rect x="28" y="168" width="208" height="116" rx="3" fill="#0B0E14" stroke="#7DC492" stroke-width=".8"/>
+        <rect x="28" y="168" width="208" height="22" rx="3" fill="rgba(125,196,146,.1)"/>
+        <rect x="28" y="178" width="208" height="12" fill="rgba(125,196,146,.1)"/>
+        <text x="132" y="184" text-anchor="middle" fill="#7DC492" font-size="10" font-weight="600" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">DIM_ANALISTA</text>
+        <text x="42" y="206" fill="#556070" font-size="9" font-family="'JetBrains Mono',monospace">sk_analista  PK</text>
+        <text x="42" y="220" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nm_analista · nm_squad</text>
+        <text x="42" y="234" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nm_nivel · fl_ativo</text>
+        <text x="42" y="248" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">dt_entrada</text>
+        <text x="42" y="262" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">score_performance</text>
+        <line x1="236" y1="226" x2="290" y2="226" stroke="#7DC492" stroke-width=".7" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+        <!-- DIM CATEGORIA right -->
+        <rect x="564" y="168" width="210" height="105" rx="3" fill="#0B0E14" stroke="#C084C8" stroke-width=".8"/>
+        <rect x="564" y="168" width="210" height="22" rx="3" fill="rgba(192,132,200,.1)"/>
+        <rect x="564" y="178" width="210" height="12" fill="rgba(192,132,200,.1)"/>
+        <text x="669" y="184" text-anchor="middle" fill="#C084C8" font-size="10" font-weight="600" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">DIM_CATEGORIA</text>
+        <text x="578" y="206" fill="#556070" font-size="9" font-family="'JetBrains Mono',monospace">sk_categoria  PK</text>
+        <text x="578" y="220" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nm_categoria · nm_grupo</text>
+        <text x="578" y="234" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nr_sla_horas</text>
+        <text x="578" y="248" fill="#C8922A" font-size="9" font-family="'JetBrains Mono',monospace">fl_critico</text>
+        <line x1="510" y1="226" x2="564" y2="226" stroke="#C084C8" stroke-width=".7" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+        <!-- DIM PRODUTO bottom -->
+        <rect x="296" y="346" width="208" height="98" rx="3" fill="#0B0E14" stroke="#C8922A" stroke-width=".8" stroke-dasharray="5 3"/>
+        <rect x="296" y="346" width="208" height="22" rx="3" fill="rgba(200,146,42,.08)"/>
+        <rect x="296" y="356" width="208" height="12" fill="rgba(200,146,42,.08)"/>
+        <text x="400" y="362" text-anchor="middle" fill="#E8AE50" font-size="10" font-weight="600" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">DIM_PRODUTO</text>
+        <text x="308" y="384" fill="#556070" font-size="9" font-family="'JetBrains Mono',monospace">sk_produto  PK</text>
+        <text x="308" y="398" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">cd_produto · nm_produto</text>
+        <text x="308" y="412" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">nm_linha · nm_segmento</text>
+        <text x="308" y="426" fill="#4A5A6A" font-size="9" font-family="'JetBrains Mono',monospace">fl_ativo</text>
+        <line x1="400" y1="310" x2="400" y2="346" stroke="#C8922A" stroke-width=".7" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+        <!-- labels -->
+        <text x="415" y="140" fill="rgba(139,188,212,.4)" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing=".1em">1:N</text>
+        <text x="248" y="222" fill="rgba(125,196,146,.4)" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing=".1em">1:N</text>
+        <text x="520" y="222" fill="rgba(192,132,200,.4)" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing=".1em">1:N</text>
+        <text x="415" y="342" fill="rgba(200,146,42,.4)" font-size="8" font-family="'JetBrains Mono',monospace" letter-spacing=".1em">1:N</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="section-full" id="sql">
+  <div class="inner">
+    <div class="label reveal">03 · Engenharia de dados</div>
+    <h2 class="display reveal">T-SQL de produção:<br><strong>7 queries <em>analíticas</em></strong></h2>
+    <p class="body reveal">Window functions, CTEs, Z-Score para detecção de anomalias, média móvel de 3 meses com variação YoY — e uma view otimizada como fonte única para o Power BI.</p>
+
+    <div class="code-wrap reveal">
+      <div class="code-nav">
+        <div class="ctab on" onclick="tab(this,'sq1')">KPI Geral</div>
+        <div class="ctab" onclick="tab(this,'sq2')">Score Analista</div>
+        <div class="ctab" onclick="tab(this,'sq3')">Média Móvel + YoY</div>
+        <div class="ctab" onclick="tab(this,'sq4')">Anomalias Z-Score</div>
+        <div class="ctab" onclick="tab(this,'sq5')">View → Power BI</div>
+      </div>
+
+      <div id="sq1" class="cpanel on">
+        <pre><code class="language-sql">-- ── Q1: KPI Executivo por Mês ─────────────────────────────────────────────
+-- Responde: Volume · Aderência SLA · Retrabalho · Lead Time
+SELECT
+    d.nr_ano,
+    d.nm_mes,
+    COUNT(*)                                                AS Total_Solicitacoes,
+    SUM(CASE WHEN s.fl_dentro_sla = 1 THEN 1 ELSE 0 END)  AS Dentro_SLA,
+    SUM(CASE WHEN s.fl_correcao   = 1 THEN 1 ELSE 0 END)  AS Com_Correcao,
+    ROUND(
+        100.0 * SUM(CASE WHEN s.fl_dentro_sla = 1 THEN 1 ELSE 0 END)
+              / NULLIF(SUM(CASE WHEN s.fl_dentro_sla IS NOT NULL
+                               THEN 1 ELSE 0 END), 0),
+    2)                                                      AS Pct_Aderencia_SLA,
+    ROUND(
+        100.0 * SUM(CASE WHEN s.fl_correcao = 1 THEN 1 ELSE 0 END)
+              / NULLIF(COUNT(*), 0),
+    2)                                                      AS Pct_Retrabalho,
+    ROUND(AVG(s.nr_lead_time_horas), 1)                    AS Lead_Time_Medio_h
+FROM ops.fct_solicitacoes  s
+JOIN ops.dim_data          d  ON s.sk_data_abertura = d.sk_data
+GROUP BY d.nr_ano, d.nr_mes, d.nm_mes
+ORDER BY d.nr_ano, d.nr_mes;</code></pre>
+      </div>
+
+      <div id="sq2" class="cpanel">
+        <pre><code class="language-sql">-- ── Q2: Ranking de Analistas — Score Composto ─────────────────────────────
+-- Score = 70% Aderência SLA + 30% Qualidade (inverso do retrabalho)
+SELECT
+    a.nm_analista,
+    a.nm_squad,
+    a.nm_nivel,
+    COUNT(*)                                                           AS Total,
+    ROUND(AVG(s.nr_lead_time_horas), 1)                                AS Lead_Time_h,
+    ROUND(
+        100.0 * SUM(CASE WHEN s.fl_dentro_sla = 1 THEN 1 ELSE 0 END)
+              / NULLIF(SUM(CASE WHEN s.fl_dentro_sla IS NOT NULL
+                               THEN 1 ELSE 0 END), 0),
+    1)                                                                 AS Pct_SLA,
+    ROUND(
+        100.0 * SUM(CASE WHEN s.fl_correcao = 1 THEN 1 ELSE 0 END)
+              / NULLIF(COUNT(*), 0),
+    1)                                                                 AS Pct_Retrabalho,
+    -- Score ponderado: 70% SLA · 30% qualidade
+    ROUND(
+        (100.0 * SUM(CASE WHEN s.fl_dentro_sla = 1 THEN 1 ELSE 0 END)
+               / NULLIF(SUM(CASE WHEN s.fl_dentro_sla IS NOT NULL
+                               THEN 1 ELSE 0 END), 0)) * 0.7
+      + (1 - (100.0 * SUM(CASE WHEN s.fl_correcao = 1 THEN 1 ELSE 0 END)
+                         / NULLIF(COUNT(*), 0)) / 100) * 100 * 0.3,
+    1)                                                                 AS Score
+FROM ops.fct_solicitacoes  s
+JOIN ops.dim_analista      a  ON s.sk_analista = a.sk_analista
+WHERE s.nm_status = 'Concluída'
+GROUP BY a.nm_analista, a.nm_squad, a.nm_nivel
+ORDER BY Score DESC;</code></pre>
+      </div>
+
+      <div id="sq3" class="cpanel">
+        <pre><code class="language-sql">-- ── Q3: Tendência com Média Móvel 3M + Variação YoY ──────────────────────
+-- Suaviza sazonalidade e compara com mesmo período do ano anterior
+WITH base AS (
+    SELECT
+        d.nr_ano, d.nr_mes, d.nm_mes,
+        COUNT(*)                                                   AS total,
+        SUM(CASE WHEN s.fl_dentro_sla = 1 THEN 1.0 ELSE 0 END)
+          / NULLIF(SUM(CASE WHEN s.fl_dentro_sla IS NOT NULL
+                           THEN 1.0 ELSE 0 END), 0)                AS pct_sla,
+        AVG(s.nr_lead_time_horas)                                  AS lead_time
+    FROM ops.fct_solicitacoes s
+    JOIN ops.dim_data         d ON s.sk_data_abertura = d.sk_data
+    WHERE s.nm_status = 'Concluída'
+    GROUP BY d.nr_ano, d.nr_mes, d.nm_mes
+)
+SELECT
+    nr_ano, nm_mes,
+    total                                                          AS Volume,
+    ROUND(pct_sla * 100, 1)                                        AS Pct_SLA,
+    -- Média móvel 3 meses (janela deslizante)
+    ROUND(AVG(CAST(total AS FLOAT))
+          OVER (ORDER BY nr_ano, nr_mes
+                ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 1)      AS MM3_Volume,
+    ROUND(AVG(pct_sla * 100)
+          OVER (ORDER BY nr_ano, nr_mes
+                ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 1)      AS MM3_Pct_SLA,
+    -- Crescimento YoY via LAG de 12 períodos
+    total - LAG(total, 12) OVER (ORDER BY nr_ano, nr_mes)          AS Var_YoY,
+    ROUND(100.0
+        * (total - LAG(total, 12) OVER (ORDER BY nr_ano, nr_mes))
+        / NULLIF(LAG(total, 12) OVER (ORDER BY nr_ano, nr_mes), 0),
+    1)                                                             AS Pct_YoY
+FROM base
+ORDER BY nr_ano, nr_mes;</code></pre>
+      </div>
+
+      <div id="sq4" class="cpanel">
+        <pre><code class="language-sql">-- ── Q4: Detecção de Anomalias via Z-Score ─────────────────────────────────
+-- Z > 2.0 = Anomalia · Z > 1.5 = Atenção · identifica gargalos ocultos
+WITH stats AS (
+    SELECT
+        sk_categoria,
+        AVG(nr_lead_time_horas)    AS media,
+        STDEV(nr_lead_time_horas)  AS desvio
+    FROM ops.fct_solicitacoes
+    WHERE nm_status = 'Concluída'
+    GROUP BY sk_categoria
+)
+SELECT
+    s.cd_solicitacao,
+    a.nm_analista,
+    c.nm_categoria,
+    s.nr_lead_time_horas                                           AS Lead_Time_Real,
+    ROUND(st.media,  1)                                            AS Media_Categoria,
+    ROUND(st.desvio, 1)                                            AS Desvio_Padrao,
+    ROUND((s.nr_lead_time_horas - st.media)
+        / NULLIF(st.desvio, 0), 2)                                 AS Z_Score,
+    CASE
+        WHEN (s.nr_lead_time_horas - st.media)
+           / NULLIF(st.desvio, 0) > 2.0  THEN '🔴 ANOMALIA'
+        WHEN (s.nr_lead_time_horas - st.media)
+           / NULLIF(st.desvio, 0) > 1.5  THEN '🟡 ATENÇÃO'
+        ELSE '🟢 Normal'
+    END                                                            AS Status
+FROM ops.fct_solicitacoes  s
+JOIN ops.dim_analista      a  ON s.sk_analista  = a.sk_analista
+JOIN ops.dim_categoria     c  ON s.sk_categoria = c.sk_categoria
+JOIN stats                 st ON s.sk_categoria = st.sk_categoria
+WHERE s.nm_status = 'Concluída'
+  AND (s.nr_lead_time_horas - st.media)
+    / NULLIF(st.desvio, 0) > 1.5
+ORDER BY Z_Score DESC;</code></pre>
+      </div>
+
+      <div id="sq5" class="cpanel">
+        <pre><code class="language-sql">-- ── Q5: View otimizada para Power BI ─────────────────────────────────────
+-- Fonte única da verdade · Suporta DirectQuery e Import Mode
+CREATE OR ALTER VIEW ops.vw_solicitacoes_pbi AS
+SELECT
+    s.cd_solicitacao,
+    -- Datas
+    da.dt_data       AS dt_abertura,
+    da.nr_ano,  da.nr_mes,  da.nm_mes AS nm_mes_abertura,
+    da.nm_trimestre,
+    df.dt_data       AS dt_fechamento,
+    -- Analista
+    a.nm_analista,  a.nm_squad,  a.nm_nivel,
+    -- Categoria
+    c.nm_grupo,  c.nm_categoria,
+    c.nr_sla_horas,  c.fl_critico,
+    -- Produto
+    p.nm_linha,  p.nm_segmento,  p.nm_produto,
+    -- Fatos
+    s.nm_status,  s.nm_prioridade,  s.nm_canal_entrada,
+    s.nr_lead_time_horas,
+    s.fl_dentro_sla,  s.fl_correcao,
+    s.vl_impacto_receita,
+    -- Colunas calculadas prontas para DAX (evitam medidas repetitivas)
+    CASE WHEN s.fl_dentro_sla = 1
+         THEN 'Dentro do SLA'   ELSE 'Fora do SLA'    END  AS status_sla,
+    CASE WHEN s.fl_correcao = 1
+         THEN 'Com Retrabalho'  ELSE 'Sem Retrabalho'  END  AS status_correcao,
+    CASE WHEN s.nm_status IN ('Aberta','Em Andamento')
+         THEN 1 ELSE 0 END                                   AS fl_aberta,
+    ROUND(s.nr_lead_time_horas / 8.0, 1)                     AS lead_time_dias
+FROM ops.fct_solicitacoes  s
+JOIN ops.dim_data          da ON s.sk_data_abertura   = da.sk_data
+LEFT JOIN ops.dim_data     df ON s.sk_data_fechamento = df.sk_data
+JOIN ops.dim_analista       a ON s.sk_analista         = a.sk_analista
+JOIN ops.dim_categoria      c ON s.sk_categoria        = c.sk_categoria
+JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POWER BI -->
+<section class="section" id="pbi">
+  <div class="label reveal">04 · Business Intelligence</div>
+  <h2 class="display reveal">DAX que responde<br><strong>perguntas de <em>negócio</em></strong></h2>
+  <p class="body reveal">Cada medida foi projetada para responder uma pergunta executiva específica — não apenas mostrar dados. RLS por perfil + Bookmarks para navegação contextual entre Liderança, Gestores e Analistas.</p>
+
+  <div class="dax-grid reveal">
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">% Aderência SLA</span><span class="dax-badge">KPI</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">% Aderência SLA</span> =
+<span class="fn">DIVIDE</span>(
+    <span class="fn">CALCULATE</span>(
+        <span class="fn">COUNTROWS</span>(fct_solicitacoes),
+        fct_solicitacoes[fl_dentro_sla] = <span class="val">1</span>
+    ),
+    <span class="fn">CALCULATE</span>(
+        <span class="fn">COUNTROWS</span>(fct_solicitacoes),
+        <span class="fn">NOT ISBLANK</span>(fct_solicitacoes[fl_dentro_sla])
+    ),
+    <span class="val">0</span>
+)</div></div>
+      <div class="dax-desc">Exclui demandas em aberto do denominador — sem isso, o KPI seria distorcido pelo volume não finalizado.</div>
+    </div>
+
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">Lead Time Médio</span><span class="dax-badge">MEASURE</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Lead Time Médio</span> =
+<span class="fn">CALCULATE</span>(
+    <span class="fn">AVERAGEX</span>(
+        <span class="fn">FILTER</span>(
+            fct_solicitacoes,
+            <span class="fn">NOT ISBLANK</span>(
+                fct_solicitacoes[nr_lead_time_horas]
+            )
+        ),
+        fct_solicitacoes[nr_lead_time_horas]
+    )
+)</div></div>
+      <div class="dax-desc">AVERAGEX + FILTER garante que demandas ainda abertas não distorçam a média do tempo de atendimento.</div>
+    </div>
+
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">Var SLA MoM</span><span class="dax-badge">TREND</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Var SLA MoM</span> =
+<span class="fn">VAR</span> atual =
+    [% Aderência SLA]
+<span class="fn">VAR</span> anterior =
+    <span class="fn">CALCULATE</span>(
+        [% Aderência SLA],
+        <span class="fn">DATEADD</span>(
+            dim_data[dt_data],
+            -<span class="val">1</span>, MONTH
+        )
+    )
+<span class="fn">RETURN</span>
+    <span class="fn">DIVIDE</span>(atual - anterior, anterior, <span class="val">0</span>)</div></div>
+      <div class="dax-desc">Alimenta o ▲▼ no card de SLA. Usa DATEADD na tabela de datas — mais robusto que cálculo direto na fato.</div>
+    </div>
+
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">Taxa Retrabalho</span><span class="dax-badge">QUALITY</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Taxa Retrabalho</span> =
+<span class="fn">DIVIDE</span>(
+    <span class="fn">CALCULATE</span>(
+        <span class="fn">COUNTROWS</span>(fct_solicitacoes),
+        fct_solicitacoes[fl_correcao] = <span class="val">1</span>
+    ),
+    <span class="fn">COUNTROWS</span>(fct_solicitacoes),
+    <span class="val">0</span>
+)
+<span class="cmt">-- Threshold de alerta: 5%</span>
+<span class="cmt">-- Formatação condicional no card</span></div></div>
+      <div class="dax-desc">KPI de qualidade. Formatação condicional muda o card para vermelho quando ultrapassa 5% de retrabalho.</div>
+    </div>
+
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">Impacto Receita R$</span><span class="dax-badge">FINANCIAL</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Impacto Receita</span> =
+<span class="fn">SUMX</span>(
+    <span class="fn">FILTER</span>(
+        fct_solicitacoes,
+        <span class="fn">NOT ISBLANK</span>(
+            fct_solicitacoes[vl_impacto_receita]
+        )
+        && fct_solicitacoes[nm_status]
+            = <span class="val">"Concluída"</span>
+    ),
+    fct_solicitacoes[vl_impacto_receita]
+)</div></div>
+      <div class="dax-desc">Soma apenas demandas concluídas com impacto registrado. Permite corte por segmento e linha de produto.</div>
+    </div>
+
+    <div class="dax-card">
+      <div class="dax-top"><span class="dax-fn">Score Performance</span><span class="dax-badge">COMPOSITE</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Score Performance</span> =
+<span class="fn">VAR</span> sla =
+    [% Aderência SLA] * <span class="val">100</span>
+<span class="fn">VAR</span> qual =
+    (<span class="val">1</span> - [Taxa Retrabalho]) * <span class="val">100</span>
+<span class="fn">RETURN</span>
+    <span class="fn">ROUND</span>(
+        sla * <span class="val">0.7</span> + qual * <span class="val">0.3</span>,
+        <span class="val">1</span>
+    )
+<span class="cmt">-- 70% SLA · 30% Qualidade</span></div></div>
+      <div class="dax-desc">Score composto para ranking de analistas. Alimenta o visual de tabela com formatação condicional por faixa.</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD MOCKUP -->
+  <div style="margin-top:4rem">
+    <div class="label reveal">Dashboard · Comunicação Integrada</div>
+    <div class="dash-frame reveal">
+      <div class="dash-titlebar">
+        <div class="dash-dot" style="background:#FF5F57"></div>
+        <div class="dash-dot" style="background:#FEBC2E"></div>
+        <div class="dash-dot" style="background:#28C840"></div>
+        <span class="dash-title">Comunicação Integrada · Power BI Service · Gestão Sênior</span>
+      </div>
+      <div class="dash-ribbon">
+        <span class="dash-rb-item on">Visão Geral</span>
+        <span class="dash-rb-item">Por Analista</span>
+        <span class="dash-rb-item">Por Categoria</span>
+        <span class="dash-rb-item">Tendência</span>
+        <span class="dash-rb-item">Impacto Receita</span>
+      </div>
+      <div class="dash-body">
+        <!-- KPIs -->
+        <div class="kpi-row">
+          <div class="kpi ka">
+            <div class="kpi-l">Total Solicitações</div>
+            <div class="kpi-v">627</div>
+            <div class="kpi-delta up">▲ +12% vs 2023</div>
+          </div>
+          <div class="kpi kb">
+            <div class="kpi-l">Aderência SLA</div>
+            <div class="kpi-v">96.8%</div>
+            <div class="kpi-delta up">▲ +1.2pp vs mês anterior</div>
+          </div>
+          <div class="kpi kc">
+            <div class="kpi-l">Lead Time Médio</div>
+            <div class="kpi-v">4.2h</div>
+            <div class="kpi-delta up">▼ -0.8h vs mês anterior</div>
+          </div>
+          <div class="kpi kd">
+            <div class="kpi-l">Taxa Retrabalho</div>
+            <div class="kpi-v">3.4%</div>
+            <div class="kpi-delta up">✓ Abaixo do limite (5%)</div>
+          </div>
+        </div>
+        <!-- Charts -->
+        <div class="charts-row">
+          <div class="chart-box">
+            <div class="chart-title">SLA por Categoria</div>
+            <div class="bar-list">
+              <div class="b-row"><span class="b-lbl">Correção</span><div class="b-track"><div class="b-fill" style="width:100%;background:#7DC492"></div></div><span class="b-val">100%</span></div>
+              <div class="b-row"><span class="b-lbl">Tab. Preços</span><div class="b-track"><div class="b-fill" style="width:96%;background:#7DC492"></div></div><span class="b-val">98.5%</span></div>
+              <div class="b-row"><span class="b-lbl">Automação</span><div class="b-track"><div class="b-fill" style="width:92%;background:#7DC492"></div></div><span class="b-val">94.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Configuração</span><div class="b-track"><div class="b-fill" style="width:89%;background:#E8AE50"></div></div><span class="b-val">91.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Relatório BI</span><div class="b-track"><div class="b-fill" style="width:83%;background:#E8AE50"></div></div><span class="b-val">85.0%</span></div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-title">Status SLA Geral</div>
+            <div class="ring-wrap">
+              <svg viewBox="0 0 110 110" width="100" height="100">
+                <circle cx="55" cy="55" r="40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="16"/>
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#7DC492" stroke-width="16"
+                  stroke-dasharray="244 251" stroke-dashoffset="63" stroke-linecap="butt"/>
+                <circle cx="55" cy="55" r="40" fill="none" stroke="#C8922A" stroke-width="16"
+                  stroke-dasharray="7 251" stroke-dashoffset="-181"/>
+                <text x="55" y="50" text-anchor="middle" fill="#E8AE50" font-size="14" font-weight="700" font-family="'Cormorant Garamond',serif">96.8%</text>
+                <text x="55" y="63" text-anchor="middle" fill="#6E7585" font-size="7.5" font-family="'Outfit',sans-serif">dentro SLA</text>
+              </svg>
+              <div class="ring-legend">
+                <span style="color:#7DC492">Dentro</span>
+                <span style="color:#C8922A">Fora</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Table -->
+        <div class="table-box">
+          <div class="t-head">
+            <span>Analista</span><span>Total</span><span>SLA</span><span>Lead Time</span><span>Score</span>
+          </div>
+          <div class="t-row">
+            <span>Ana Lima</span><span>18</span>
+            <span><span class="pill pill-ok">100%</span></span>
+            <span>4.1h</span><span style="color:var(--gold2)">97.0</span>
+          </div>
+          <div class="t-row">
+            <span>Bruno Souza</span><span>12</span>
+            <span><span class="pill pill-ok">97%</span></span>
+            <span>5.2h</span><span style="color:var(--gold2)">94.1</span>
+          </div>
+          <div class="t-row">
+            <span>Diego Oliveira</span><span>6</span>
+            <span><span class="pill pill-ok">100%</span></span>
+            <span>3.0h</span><span style="color:var(--gold2)">95.5</span>
+          </div>
+          <div class="t-row">
+            <span>Igor Pires</span><span>8</span>
+            <span><span class="pill pill-warn">88%</span></span>
+            <span>6.8h</span><span style="color:var(--muted)">85.6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- RESULTADO -->
+<section class="section" id="resultado">
+  <div class="label reveal">05 · Resultado</div>
+  <h2 class="display reveal">Impacto<br><strong><em>mensurável</em></strong></h2>
+  <p class="body reveal">Este projeto demonstra o pipeline completo — da modelagem relacional ao dashboard executivo. Cada número abaixo é derivado diretamente das queries e medidas DAX construídas neste case.</p>
+
+  <div class="result-grid reveal">
+    <div class="r-card" data-n="01">
+      <div class="r-num">96.8%</div>
+      <div class="r-label">Aderência ao SLA</div>
+      <p class="r-body">Taxa calculada pelas 7 queries analíticas sobre os dados do modelo. A Q1 retorna o KPI por período, analista e categoria — com drill-down completo no Power BI sem medidas adicionais.</p>
+    </div>
+    <div class="r-card" data-n="02">
+      <div class="r-num">7</div>
+      <div class="r-label">Queries de produção</div>
+      <p class="r-body">T-SQL com window functions (LAG, AVG OVER), CTEs, Z-Score para anomalias, análise YoY e view otimizada para Power BI. Nenhuma query usa subconsultas aninhadas desnecessárias.</p>
+    </div>
+    <div class="r-card" data-n="03">
+      <div class="r-num">6</div>
+      <div class="r-label">Medidas DAX avançadas</div>
+      <p class="r-body">DIVIDE com proteção contra divisão por zero, DATEADD para variação mensal, AVERAGEX + FILTER para exclusão contextual. RLS por perfil de gestão via roles no Power BI Service.</p>
+    </div>
+    <div class="r-card" data-n="04">
+      <div class="r-num">1</div>
+      <div class="r-label">Fonte única da verdade</div>
+      <p class="r-body">A vw_solicitacoes_pbi consolida todas as dimensões em uma view desnormalizada — simplificando o modelo no Power BI, reduzindo DAX redundante e garantindo performance em DirectQuery.</p>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div style="margin-top:4rem">
+    <div class="label reveal">Stack técnica utilizada</div>
+    <div class="stack-cols reveal">
+      <div>
+        <div class="stack-col-title">Engenharia de Dados</div>
+        <div class="stack-item">SQL Server (T-SQL)</div>
+        <div class="stack-item">Star Schema · Modelagem Dimensional</div>
+        <div class="stack-item">Window Functions · CTEs</div>
+        <div class="stack-item">Z-Score · Detecção de Anomalias</div>
+        <div class="stack-item">View otimizada para BI</div>
+      </div>
+      <div>
+        <div class="stack-col-title">Business Intelligence</div>
+        <div class="stack-item">Power BI (Expert)</div>
+        <div class="stack-item">DAX Avançado</div>
+        <div class="stack-item">RLS (Row-Level Security)</div>
+        <div class="stack-item">Bookmarks · Navegação contextual</div>
+        <div class="stack-item">DirectQuery · Import Mode</div>
+      </div>
+      <div>
+        <div class="stack-col-title">Metodologia</div>
+        <div class="stack-item">Kaizen · Melhoria Contínua</div>
+        <div class="stack-item">DataOps · Governança</div>
+        <div class="stack-item">As-Is → To-Be Mapping</div>
+        <div class="stack-item">Data Storytelling Executivo</div>
+        <div class="stack-item">Documentação técnica</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="label" style="justify-content:center">Vamos conversar?</div>
+  <h2 class="display" style="text-align:center;max-width:700px;margin:0 auto 1.5rem">Transforme seus dados em<br><strong>decisões de <em>negócio</em></strong></h2>
+  <p class="body" style="text-align:center">Este projeto está disponível no GitHub com código completo, dados de exemplo e guia de configuração no Power BI.</p>
+  <div class="btn-row" style="margin-top:2.5rem">
+    <a href="https://www.linkedin.com/in/johnnytrigo/" target="_blank" class="btn btn-gold">linkedin.com/in/johnnytrigo</a>
+    <a href="mailto:johnny.trigo@outlook.com.br" class="btn btn-ghost">johnny.trigo@outlook.com.br</a>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+<script>
+// ── Custom cursor
+const cd = document.getElementById('cd');
+const cr = document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+function animCur(){
+  rx+=(mx-rx)*.15; ry+=(my-ry)*.15;
+  cd.style.cssText=`transform:translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  cr.style.cssText=`transform:translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+  requestAnimationFrame(animCur);
+}
+animCur();
+
+// ── Counter animation
+function count(el, target, suffix, dur=1400){
+  const start = performance.now();
+  function step(now){
+    const p = Math.min((now-start)/dur,1);
+    const ease = 1-Math.pow(1-p,3);
+    const val = typeof target === 'float' ? (ease*target).toFixed(1) : Math.round(ease*target);
+    el.textContent = val + suffix;
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+setTimeout(()=>{
+  count(document.getElementById('c1'), 96.8, '%', 1600);
+  count(document.getElementById('c2'), 4.2, 'h', 1200);
+  count(document.getElementById('c3'), 7, '', 900);
+}, 600);
+
+// ── Code tabs
+function tab(el, id){
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById(id).classList.add('on');
+  Prism.highlightAll();
+}
+
+// ── Scroll reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Animate bars on scroll
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.b-fill').forEach(b=>{
+        const w = b.style.width;
+        b.style.width='0';
+        req
