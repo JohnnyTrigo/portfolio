@@ -884,7 +884,7 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
   <p class="body" style="text-align:center">Este projeto está disponível no GitHub com código completo, dados de exemplo e guia de configuração no Power BI.</p>
   <div class="btn-row" style="margin-top:2.5rem">
     <a href="https://www.linkedin.com/in/johnnytrigo/" target="_blank" class="btn btn-gold">linkedin.com/in/johnnytrigo</a>
-    <a href="mailto:johnny.trigo@outlook.com.br" class="btn btn-ghost">johnny.trigo@outlook.com.br</a>
+    <a href="mailto:johnny.wx@outlook.com" class="btn btn-ghost">johnny.wx@outlook.com</a>
   </div>
 </div>
 
@@ -945,4 +945,14 @@ const barObs = new IntersectionObserver(entries=>{
       e.target.querySelectorAll('.b-fill').forEach(b=>{
         const w = b.style.width;
         b.style.width='0';
-        req
+        requestAnimationFrame(()=>{ b.style.width=w; });
+      });
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.chart-box').forEach(el=>barObs.observe(el));
+
+window.addEventListener('load', ()=> Prism.highlightAll());
+</script>
+</body>
+</html>
