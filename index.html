@@ -24,9 +24,152 @@
   --ff-b:   'Outfit', sans-serif;
   --ff-m:   'JetBrains Mono', monospace;
 }
+/* ── LIGHT MODE TOKENS ──────────────────────────────────────── */
+html.light{
+  --ink:    #F2EBE0;
+  --ink2:   #E8DDD0;
+  --ink3:   #DCCFC0;
+  --card:   #FAF5EE;
+  --gold:   #7A4E08;
+  --gold2:  #9A6510;
+  --gold3:  #BA8020;
+  --cream:  #0A0500;
+  --text:   #160D04;
+  --muted:  #453220;
+  --line:   rgba(122,78,8,.22);
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--text);font-family:var(--ff-b);font-size:16px;line-height:1.7;overflow-x:hidden;cursor:none}
+body{background:var(--ink);color:var(--text);font-family:var(--ff-b);font-size:16px;line-height:1.7;overflow-x:hidden;cursor:none;transition:background .35s,color .35s}
+
+/* ── THEME TOGGLE BUTTON ─────────────────────────────────────── */
+.theme-btn{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.4rem .9rem;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:transparent;
+  color:var(--muted);
+  font-family:var(--ff-m);
+  font-size:.68rem;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:all .2s;
+  white-space:nowrap;
+}
+.theme-btn:hover{border-color:var(--gold);color:var(--gold)}
+.theme-icon{font-size:.85rem;transition:transform .35s}
+html.light .theme-icon{transform:rotate(180deg)}
+
+/* ── Light: nav ──────────────── */
+html.light nav{background:rgba(242,235,224,.97)!important;border-bottom:1px solid var(--line)}
+html.light .nav-name{color:var(--muted)}
+html.light .nav-links a{color:var(--muted)}
+html.light .nav-links a:hover{color:var(--gold)}
+html.light .nav-back{color:var(--muted)}
+html.light .nav-back:hover{color:var(--gold)}
+html.light .nav-mono{border-color:var(--gold);color:var(--gold)}
+
+/* ── Light: body ─────────────── */
+html.light body::before{opacity:.1}
+html.light .cur{mix-blend-mode:multiply}
+
+/* ── Light: hero ─────────────── */
+html.light .hero-bg{background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(122,78,8,.07) 0%,transparent 70%)}
+html.light .hero-grid{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px)}
+html.light .hero-h1{color:var(--text)}
+html.light .hero-h1 em{color:var(--gold2)}
+html.light .hero-stat-n{color:var(--gold2)}
+html.light .hero-stat-l{color:var(--muted)}
+html.light .chip{border-color:var(--line);color:var(--muted)}
+html.light .chip.gold{border-color:var(--gold);color:var(--gold)}
+
+/* ── Light: typography ────────── */
+html.light .display em{color:var(--gold2)}
+html.light .body{color:var(--muted)}
+html.light .label{color:var(--gold)}
+html.light .label::before{background:var(--gold)}
+html.light .gold-line{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* ── Light: sections / cards ─── */
+html.light .section-full{background:var(--ink2);border-color:var(--line)}
+html.light .prob-grid{background:var(--line)}
+html.light .prob-card{background:var(--ink2)}
+html.light .prob-card:hover{background:var(--ink3)}
+html.light .prob-title{color:var(--text)}
+html.light .prob-body{color:var(--muted)}
+html.light .prob-num{color:rgba(122,78,8,.18)}
+
+/* ── Light: arch / code ──────── */
+html.light .arch-wrap{background:var(--card);border-color:var(--line)}
+html.light .code-nav{background:var(--ink2);border-color:var(--line)}
+html.light .ctab{color:var(--muted)}
+html.light .ctab.on{color:var(--gold2);border-bottom-color:var(--gold)}
+html.light .cpanel{background:#16100A}
+html.light .cpanel pre{background:#16100A!important}
+
+/* ── Light: DAX cards ─────────── */
+html.light .dax-grid{background:var(--line)}
+html.light .dax-card{background:var(--card)}
+html.light .dax-top{background:rgba(122,78,8,.08);border-color:var(--line)}
+html.light .dax-fn{color:var(--gold2)}
+html.light .dax-badge{background:rgba(122,78,8,.12);color:var(--gold)}
+html.light .dax-pre{color:#C8D8E8}
+html.light .dax-desc{color:var(--muted);border-color:var(--line)}
+html.light .kw{color:#E8AE50}
+html.light .fn{color:#F5C97A}
+html.light .val{color:#8BBCD4}
+html.light .cmt{color:#705A40;font-style:italic}
+
+/* ── Light: dashboard ─────────── */
+html.light .dash-frame{background:var(--card);border-color:var(--line)}
+html.light .dash-titlebar{background:var(--ink3);border-color:var(--line)}
+html.light .dash-ribbon{background:rgba(122,78,8,.06);border-color:var(--line)}
+html.light .dash-rb-item{color:var(--muted)}
+html.light .dash-rb-item.on{color:var(--gold);border-color:var(--gold)}
+html.light .dash-body{background:var(--card)}
+html.light .kpi{background:var(--ink2);border-color:var(--line)}
+html.light .kpi-l{color:var(--muted)}
+html.light .kpi.ka .kpi-v{color:var(--gold2)}
+html.light .kpi.kb .kpi-v{color:#165030}
+html.light .kpi.kc .kpi-v{color:#14406A}
+html.light .kpi.kd .kpi-v{color:#7A1A1A}
+html.light .kpi-detail{color:var(--muted);border-color:var(--line)}
+html.light .chart-box{background:var(--ink2);border-color:var(--line)}
+html.light .chart-title{color:var(--muted)}
+html.light .b-lbl,.html.light .b-val{color:var(--muted)}
+html.light .b-track{background:rgba(0,0,0,.12)}
+html.light .table-box{background:var(--ink2);border-color:var(--line)}
+html.light .t-head{background:rgba(122,78,8,.07);border-color:var(--line)}
+html.light .t-head span{color:var(--muted)}
+html.light .t-row{border-color:rgba(0,0,0,.05)}
+html.light .t-row span{color:var(--text)}
+html.light .pill-ok{background:rgba(22,80,48,.12);color:#165030}
+html.light .pill-warn{background:rgba(122,78,8,.12);color:var(--gold)}
+
+/* ── Light: result cards ─────── */
+html.light .result-grid{background:var(--line)}
+html.light .r-card{background:var(--ink2)}
+html.light .r-card:hover{background:var(--ink3)}
+html.light .r-num{color:var(--gold2)}
+html.light .r-label{color:var(--text)}
+html.light .r-body{color:var(--muted)}
+
+/* ── Light: stack ─────────────── */
+html.light .stack-col-title{color:var(--gold);border-color:var(--line)}
+html.light .stack-item{color:var(--muted);border-bottom-color:rgba(0,0,0,.07)}
+html.light .stack-item::before{background:var(--gold)}
+
+/* ── Light: CTA / buttons ─────── */
+html.light .cta-wrap{background:var(--ink2);border-color:var(--line)}
+html.light .btn-gold{background:var(--gold);color:#FAF5EE}
+html.light .btn-gold:hover{background:var(--gold2)}
+html.light .btn-ghost{border-color:var(--line);color:var(--muted)}
+html.light .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Light: SVG ───────────────── */
+html.light .schema-wrap svg text{fill:var(--text)}
 
 /* ── CUSTOM CURSOR ──────────────────────────────────────────── */
 .cur{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
@@ -111,13 +254,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display
 .cpanel pre{margin:0!important;background:transparent!important;font-size:.79rem!important;line-height:1.65!important;max-height:440px;overflow-y:auto;padding:1.75rem 2rem!important}
 .cpanel pre::-webkit-scrollbar{width:3px}
 .cpanel pre::-webkit-scrollbar-thumb{background:var(--line)}
-/* custom prism theme matching gold palette */
+/* Code blocks always use absolute dark-bg palette — never inherit theme text color */
+.cpanel pre code{color:#A8BED0}
+.cpanel,.cpanel *{color-scheme:dark}
+/* Prism token colors — hardcoded, not CSS vars, so light/dark mode has no effect */
 .token.keyword{color:#C8922A!important}
 .token.function{color:#E8AE50!important}
 .token.string{color:#9DB882!important}
-.token.comment{color:#3E4A5A!important;font-style:italic}
+.token.comment{color:#4A5E70!important;font-style:italic}
 .token.number{color:#8BBCD4!important}
-.token.operator,.token.punctuation{color:#556070!important}
+.token.operator,.token.punctuation{color:#5A7080!important}
+.token.class-name{color:#E8AE50!important}
+.token.builtin{color:#C8922A!important}
+/* Light-mode overrides for code: keep same dark-bg palette */
+html.light .cpanel{background:#16100A}
+html.light .cpanel pre{background:#16100A!important}
+html.light .cpanel pre code{color:#A8BED0}
+html.light .cpanel .token.keyword{color:#C8922A!important}
+html.light .cpanel .token.function{color:#E8AE50!important}
+html.light .cpanel .token.string{color:#9DB882!important}
+html.light .cpanel .token.comment{color:#4A5E70!important;font-style:italic}
+html.light .cpanel .token.number{color:#8BBCD4!important}
+html.light .cpanel .token.operator,.html.light .cpanel .token.punctuation{color:#5A7080!important}
 
 /* ── DAX GRID ───────────────────────────────────────────────── */
 .dax-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);margin-top:3rem}
@@ -128,22 +286,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display
 .dax-code-block{padding:1.25rem 1.5rem}
 .dax-pre{font-family:var(--ff-m);font-size:.77rem;line-height:1.6;color:#C8D8E8;white-space:pre;overflow-x:auto}
 .dax-desc{padding:.85rem 1.5rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);line-height:1.65}
-.kw{color:var(--gold)}
-.fn{color:var(--gold2)}
+/* DAX manual highlight spans — dark bg always, absolute colors */
+.kw{color:#C8922A}
+.fn{color:#E8AE50}
 .val{color:#8BBCD4}
-.cmt{color:#3E4A5A;font-style:italic}
+.cmt{color:#4A5E70;font-style:italic}
+/* DAX code containers always dark */
+.dax-code-block{background:#0A0805}
+.dax-pre{color:#A8BED0;font-family:var(--ff-m);font-size:.77rem;line-height:1.6;white-space:pre;overflow-x:auto}
+/* Light mode: DAX cards keep dark code area */
+html.light .dax-code-block{background:#0A0805}
+html.light .dax-pre{color:#A8BED0}
+html.light .kw{color:#C8922A}
+html.light .fn{color:#E8AE50}
+html.light .val{color:#8BBCD4}
+html.light .cmt{color:#4A5E70;font-style:italic}
 
 /* ── DASHBOARD MOCKUP ───────────────────────────────────────── */
 .dash-frame{background:var(--card);border:1px solid var(--line);margin-top:3rem;overflow:hidden}
 .dash-titlebar{background:#0A0C10;border-bottom:1px solid var(--line);padding:.7rem 1.25rem;display:flex;align-items:center;gap:.5rem}
 .dash-dot{width:9px;height:9px;border-radius:50%}
 .dash-title{font-family:var(--ff-m);font-size:.72rem;color:var(--muted);margin-left:.75rem;letter-spacing:.06em}
-.dash-ribbon{background:rgba(200,146,42,.08);border-bottom:1px solid var(--line);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.5rem}
-.dash-rb-item{font-family:var(--ff-m);font-size:.65rem;color:var(--muted);letter-spacing:.06em;padding:.25rem .6rem;cursor:pointer;transition:color .2s}
+.dash-ribbon{background:rgba(200,146,42,.08);border-bottom:1px solid var(--line);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.dash-rb-item{font-family:var(--ff-m);font-size:.65rem;color:var(--muted);letter-spacing:.06em;padding:.25rem .6rem;cursor:pointer;transition:color .2s;white-space:nowrap;flex-shrink:0}
 .dash-rb-item.on{color:var(--gold);border-bottom:1px solid var(--gold)}
-.dash-body{padding:1.25rem 1.5rem}
+.dash-body{padding:1.25rem 1.5rem;overflow-x:hidden}
+/* ── KPI row: centering fix ── */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
-.kpi{background:var(--ink2);border:1px solid var(--line);padding:1rem 1.25rem;position:relative;overflow:hidden}
+.kpi{background:var(--ink2);border:1px solid var(--line);padding:1rem 1.25rem;position:relative;overflow:hidden;text-align:center}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .kpi.ka::before{background:var(--gold)}
 .kpi.kb::before{background:#5CA870}
@@ -158,42 +328,73 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display
 .kpi-delta{font-size:.65rem;margin-top:.3rem}
 .up{color:#7DC492}
 .dn{color:#D48080}
+/* ── KPI interaction ── */
+.kpi{cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(200,146,42,.3);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.kpi.active{border-color:rgba(200,146,42,.5);box-shadow:0 0 0 1px rgba(200,146,42,.2)}
+.kpi::before{transition:opacity .3s,height .25s}
+.kpi:hover::before,.kpi.active::before{height:3px;opacity:1}
+@keyframes kpi-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.kpi.counting::before{animation:kpi-pulse .6s ease-in-out 3}
+.kpi-detail{font-size:.62rem;color:var(--muted);margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--line);line-height:1.5;display:none;opacity:0;transition:opacity .2s;text-align:left}
+.kpi.active .kpi-detail{display:block;opacity:1}
+/* dash ribbon active tab */
+.dash-rb-item{cursor:pointer;transition:color .2s,border-color .2s}
+/* view panels */
+.dash-view{display:none}
+.dash-view.on{display:block}
+/* ── charts: centering fix ── */
 .charts-row{display:grid;grid-template-columns:2.2fr 1fr;gap:.75rem;margin-bottom:1rem}
 .chart-box{background:var(--ink2);border:1px solid var(--line);padding:1rem 1.25rem}
-.chart-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;font-weight:500}
+.chart-title{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;font-weight:500;text-align:center}
 .bar-list{display:flex;flex-direction:column;gap:.5rem}
 .b-row{display:flex;align-items:center;gap:.75rem}
-.b-lbl{font-size:.68rem;color:var(--muted);width:110px;text-align:right;flex-shrink:0}
+.b-lbl{font-size:.68rem;color:var(--muted);width:90px;text-align:right;flex-shrink:0}
 .b-track{flex:1;background:rgba(255,255,255,.04);border-radius:1px;height:7px;overflow:hidden}
 .b-fill{height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
 .b-val{font-family:var(--ff-m);font-size:.65rem;color:var(--muted);width:40px;text-align:right;flex-shrink:0}
 .ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:.75rem}
-.ring-legend{display:flex;gap:.75rem;font-size:.65rem}
+.ring-legend{display:flex;gap:.75rem;font-size:.65rem;justify-content:center}
 .ring-legend span{display:flex;align-items:center;gap:.3rem}
 .ring-legend span::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* ── table: centering fix ── */
 .table-box{background:var(--ink2);border:1px solid var(--line);overflow:hidden}
-.t-head{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1fr;padding:.5rem 1.25rem;background:rgba(200,146,42,.05);border-bottom:1px solid var(--line)}
-.t-head span,.t-row span{font-size:.65rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:500}
-.t-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1fr;padding:.55rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.03)}
+.t-head{display:grid;grid-template-columns:2fr 1fr 1fr;padding:.5rem 1.25rem;background:rgba(200,146,42,.05);border-bottom:1px solid var(--line)}
+.t-head span,.t-row span{font-size:.65rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;font-weight:500;text-align:center}
+.t-row{display:grid;grid-template-columns:2fr 1fr 1fr;padding:.55rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.03)}
 .t-row:last-child{border:none}
-.t-row span{color:var(--text);text-transform:none;font-size:.72rem;letter-spacing:0;font-weight:400}
+.t-row span{color:var(--text);text-transform:none;font-size:.72rem;letter-spacing:0;font-weight:400;text-align:center}
+.t-row span:first-child{text-align:left}
 .pill{display:inline-block;font-family:var(--ff-m);font-size:.6rem;padding:.15rem .55rem;letter-spacing:.04em}
 .pill-ok{background:rgba(92,168,112,.15);color:#7DC492}
 .pill-warn{background:rgba(200,146,42,.15);color:var(--gold)}
 
 /* ── RESULT SECTION ─────────────────────────────────────────── */
-.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:3rem}
-.r-card{background:var(--ink2);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s}
+/* Scroll wrapper — horizontal on mobile, grid on desktop */
+.result-scroll-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:3rem;padding-bottom:.5rem}
+.result-scroll-wrap::-webkit-scrollbar{height:4px}
+.result-scroll-wrap::-webkit-scrollbar-track{background:var(--line)}
+.result-scroll-wrap::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);min-width:600px}
+.r-card{background:var(--ink2);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s;text-align:center}
 .r-card:hover{background:var(--ink3)}
 .r-num{font-family:var(--ff-d);font-size:4.5rem;font-weight:700;line-height:1;color:var(--gold2);margin-bottom:.5rem}
 .r-label{font-family:var(--ff-b);font-size:.82rem;font-weight:600;color:var(--cream);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.06em}
-.r-body{font-size:.875rem;color:var(--muted);line-height:1.7}
+.r-body{font-size:.875rem;color:var(--muted);line-height:1.7;max-width:380px;margin:0 auto}
 .r-card::before{content:attr(data-n);position:absolute;bottom:-1rem;right:1rem;font-family:var(--ff-d);font-size:8rem;font-weight:700;color:rgba(200,146,42,.04);line-height:1;pointer-events:none}
+.r-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
+/* animated result numbers */
+.r-num[data-to]{cursor:default}
+/* scroll hint on mobile */
+@media(max-width:700px){
+  .result-scroll-wrap::after{content:'';display:block;height:1px}
+  .result-grid{min-width:560px}
+}
 
 /* ── STACK ──────────────────────────────────────────────────── */
 .stack-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-.stack-col-title{font-family:var(--ff-m);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--line)}
-.stack-item{font-size:.875rem;color:var(--muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:.75rem}
+.stack-col-title{font-family:var(--ff-m);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--line);text-align:center}
+.stack-item{font-size:.875rem;color:var(--muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:center;gap:.75rem;justify-content:center}
 .stack-item::before{content:'';width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;opacity:.6}
 
 /* ── CTA ────────────────────────────────────────────────────── */
@@ -222,10 +423,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display
   .nav-links{display:none}
   .hero,.section{padding-left:1.5rem;padding-right:1.5rem}
   .section-full .inner{padding:0 1.5rem}
-  .hero-stats,.prob-grid,.dax-grid,.result-grid,.stack-cols,.kpi-row,.charts-row{grid-template-columns:1fr}
-  .t-head,.t-row{grid-template-columns:2fr 1fr 1fr}
-  .t-head span:nth-child(4),.t-head span:nth-child(5),
-  .t-row span:nth-child(4),.t-row span:nth-child(5){display:none}
+  .hero-stats,.prob-grid,.dax-grid,.stack-cols,.charts-row{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .b-lbl{width:70px}
+  .dash-body{padding:.85rem 1rem}
+  .theme-btn span:last-child{display:none}
+  .hero-stats{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .kpi-row{grid-template-columns:1fr}
+  .b-lbl{width:60px;font-size:.6rem}
+  .b-val{width:32px;font-size:.6rem}
+  .dash-ribbon{gap:.75rem;padding:.5rem .85rem}
+  .dash-body{padding:.75rem .85rem}
 }
 </style>
 </head>
@@ -243,12 +453,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.25rem 3rem;display
   </a>
   <div class="nav-links">
     <a href="#problema">Desafio</a>
-    <a href="#arquitetura">Arquitetura</a>
     <a href="#sql">SQL</a>
     <a href="#pbi">Power BI</a>
-    <a href="#resultado">Resultado</a>
+    <a href="#resultado">Resultados</a>
+    <a href="#banco-horas">Banco Horas</a>
+    <a href="#vba">VBA</a>
+    <a href="#analise">Metodologia</a>
   </div>
-  <a href="#" class="nav-back">← Portfólio</a>
+  <div style="display:flex;align-items:center;gap:1.25rem">
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" aria-label="Alternar tema">
+      <span class="theme-icon" id="theme-icon">☀</span>
+      <span id="theme-label">Modo Claro</span>
+    </button>
+    <a href="#" class="nav-back">← Portfólio</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -582,7 +800,6 @@ SELECT
     s.nm_status,  s.nm_prioridade,  s.nm_canal_entrada,
     s.nr_lead_time_horas,
     s.fl_dentro_sla,  s.fl_correcao,
-    s.vl_impacto_receita,
     -- Colunas calculadas prontas para DAX (evitam medidas repetitivas)
     CASE WHEN s.fl_dentro_sla = 1
          THEN 'Dentro do SLA'   ELSE 'Fora do SLA'    END  AS status_sla,
@@ -600,9 +817,7 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
       </div>
     </div>
   </div>
-</section>
-
-<!-- POWER BI -->
+</div>
 <section class="section" id="pbi">
   <div class="label reveal">04 · Business Intelligence</div>
   <h2 class="display reveal">DAX que responde<br><strong>perguntas de <em>negócio</em></strong></h2>
@@ -678,20 +893,17 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
     </div>
 
     <div class="dax-card">
-      <div class="dax-top"><span class="dax-fn">Impacto Receita R$</span><span class="dax-badge">FINANCIAL</span></div>
-      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Impacto Receita</span> =
-<span class="fn">SUMX</span>(
+      <div class="dax-top"><span class="dax-fn">Tempo Ciclo Médio</span><span class="dax-badge">TEMPO</span></div>
+      <div class="dax-code-block"><div class="dax-pre"><span class="kw">Tempo Ciclo Médio</span> =
+<span class="fn">AVERAGEX</span>(
     <span class="fn">FILTER</span>(
         fct_solicitacoes,
-        <span class="fn">NOT ISBLANK</span>(
-            fct_solicitacoes[vl_impacto_receita]
-        )
-        && fct_solicitacoes[nm_status]
+        fct_solicitacoes[nm_status]
             = <span class="val">"Concluída"</span>
     ),
-    fct_solicitacoes[vl_impacto_receita]
+    fct_solicitacoes[nr_lead_time_horas]
 )</div></div>
-      <div class="dax-desc">Soma apenas demandas concluídas com impacto registrado. Permite corte por segmento e linha de produto.</div>
+      <div class="dax-desc">Tempo médio do ciclo completo (abertura → entrega) em horas úteis. Exclui demandas ainda abertas para não distorcer a média.</div>
     </div>
 
     <div class="dax-card">
@@ -722,93 +934,141 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
         <span class="dash-title">Comunicação Integrada · Power BI Service · Gestão Sênior</span>
       </div>
       <div class="dash-ribbon">
-        <span class="dash-rb-item on">Visão Geral</span>
-        <span class="dash-rb-item">Por Analista</span>
-        <span class="dash-rb-item">Por Categoria</span>
-        <span class="dash-rb-item">Tendência</span>
-        <span class="dash-rb-item">Impacto Receita</span>
+        <span class="dash-rb-item on" onclick="switchView('geral',this)">Visão Geral</span>
+        <span class="dash-rb-item" onclick="switchView('analista',this)">Por Analista</span>
+        <span class="dash-rb-item" onclick="switchView('categoria',this)">Por Categoria</span>
+        <span class="dash-rb-item" onclick="switchView('tendencia',this)">Tendência</span>
       </div>
       <div class="dash-body">
-        <!-- KPIs -->
-        <div class="kpi-row">
-          <div class="kpi ka">
-            <div class="kpi-l">Total Solicitações</div>
-            <div class="kpi-v">627</div>
-            <div class="kpi-delta up">▲ +12% vs 2023</div>
-          </div>
-          <div class="kpi kb">
-            <div class="kpi-l">Aderência SLA</div>
-            <div class="kpi-v">96.8%</div>
-            <div class="kpi-delta up">▲ +1.2pp vs mês anterior</div>
-          </div>
-          <div class="kpi kc">
-            <div class="kpi-l">Lead Time Médio</div>
-            <div class="kpi-v">4.2h</div>
-            <div class="kpi-delta up">▼ -0.8h vs mês anterior</div>
-          </div>
-          <div class="kpi kd">
-            <div class="kpi-l">Taxa Retrabalho</div>
-            <div class="kpi-v">3.4%</div>
-            <div class="kpi-delta up">✓ Abaixo do limite (5%)</div>
-          </div>
-        </div>
-        <!-- Charts -->
-        <div class="charts-row">
-          <div class="chart-box">
-            <div class="chart-title">SLA por Categoria</div>
-            <div class="bar-list">
-              <div class="b-row"><span class="b-lbl">Correção</span><div class="b-track"><div class="b-fill" style="width:100%;background:#7DC492"></div></div><span class="b-val">100%</span></div>
-              <div class="b-row"><span class="b-lbl">Tab. Preços</span><div class="b-track"><div class="b-fill" style="width:96%;background:#7DC492"></div></div><span class="b-val">98.5%</span></div>
-              <div class="b-row"><span class="b-lbl">Automação</span><div class="b-track"><div class="b-fill" style="width:92%;background:#7DC492"></div></div><span class="b-val">94.0%</span></div>
-              <div class="b-row"><span class="b-lbl">Configuração</span><div class="b-track"><div class="b-fill" style="width:89%;background:#E8AE50"></div></div><span class="b-val">91.0%</span></div>
-              <div class="b-row"><span class="b-lbl">Relatório BI</span><div class="b-track"><div class="b-fill" style="width:83%;background:#E8AE50"></div></div><span class="b-val">85.0%</span></div>
+
+        <!-- ── VISÃO GERAL ──────────────────────────────────── -->
+        <div class="dash-view on" id="dv-geral">
+          <div class="kpi-row" id="kpi-row">
+            <div class="kpi ka" onclick="toggleKpi(this)" data-val="627" data-sfx="" data-dur="900">
+              <div class="kpi-l">Total Solicitações</div>
+              <div class="kpi-v" id="kv0">0</div>
+              <div class="kpi-delta up">▲ +12% vs 2023</div>
+              <div class="kpi-detail">Volume total de demandas processadas no período. Crescimento de 12% em relação ao ano anterior, puxado pelo aumento de lançamentos de produto no segmento Móvel.</div>
+            </div>
+            <div class="kpi kb" onclick="toggleKpi(this)" data-val="96.8" data-sfx="%" data-dur="1200">
+              <div class="kpi-l">Aderência SLA</div>
+              <div class="kpi-v" id="kv1">0%</div>
+              <div class="kpi-delta up">▲ +1.2pp vs mês anterior</div>
+              <div class="kpi-detail">Percentual de demandas concluídas dentro do prazo acordado. Meta: 95%. Calculado pela medida DAX com DIVIDE e exclusão de demandas em aberto.</div>
+            </div>
+            <div class="kpi kc" onclick="toggleKpi(this)" data-val="4.2" data-sfx="h" data-dur="800">
+              <div class="kpi-l">Lead Time Médio</div>
+              <div class="kpi-v" id="kv2">0h</div>
+              <div class="kpi-delta up">▼ -0.8h vs mês anterior</div>
+              <div class="kpi-detail">Tempo médio da abertura ao fechamento da demanda (horas úteis). Redução de 0.8h em relação ao mês anterior, reflexo da automação de ETL implantada em Q3.</div>
+            </div>
+            <div class="kpi kd" onclick="toggleKpi(this)" data-val="3.4" data-sfx="%" data-dur="700">
+              <div class="kpi-l">Taxa Retrabalho</div>
+              <div class="kpi-v" id="kv3">0%</div>
+              <div class="kpi-delta up">✓ Abaixo do limite (5%)</div>
+              <div class="kpi-detail">Proporção de demandas que exigiram correção após entrega. Threshold de alerta: 5%. Formatação condicional no Power BI muda o card para vermelho ao ultrapassar.</div>
             </div>
           </div>
-          <div class="chart-box">
-            <div class="chart-title">Status SLA Geral</div>
-            <div class="ring-wrap">
-              <svg viewBox="0 0 110 110" width="100" height="100">
-                <circle cx="55" cy="55" r="40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="16"/>
-                <circle cx="55" cy="55" r="40" fill="none" stroke="#7DC492" stroke-width="16"
-                  stroke-dasharray="244 251" stroke-dashoffset="63" stroke-linecap="butt"/>
-                <circle cx="55" cy="55" r="40" fill="none" stroke="#C8922A" stroke-width="16"
-                  stroke-dasharray="7 251" stroke-dashoffset="-181"/>
-                <text x="55" y="50" text-anchor="middle" fill="#E8AE50" font-size="14" font-weight="700" font-family="'Cormorant Garamond',serif">96.8%</text>
-                <text x="55" y="63" text-anchor="middle" fill="#6E7585" font-size="7.5" font-family="'Outfit',sans-serif">dentro SLA</text>
-              </svg>
-              <div class="ring-legend">
-                <span style="color:#7DC492">Dentro</span>
-                <span style="color:#C8922A">Fora</span>
+          <div class="charts-row">
+            <div class="chart-box">
+              <div class="chart-title">SLA por Categoria</div>
+              <div class="bar-list">
+                <div class="b-row"><span class="b-lbl">Correção</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="100%"></div></div><span class="b-val">100%</span></div>
+                <div class="b-row"><span class="b-lbl">Tab. Preços</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="96%"></div></div><span class="b-val">98.5%</span></div>
+                <div class="b-row"><span class="b-lbl">Automação</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="92%"></div></div><span class="b-val">94.0%</span></div>
+                <div class="b-row"><span class="b-lbl">Configuração</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="89%"></div></div><span class="b-val">91.0%</span></div>
+                <div class="b-row"><span class="b-lbl">Relatório BI</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="83%"></div></div><span class="b-val">85.0%</span></div>
+              </div>
+            </div>
+            <div class="chart-box">
+              <div class="chart-title">Status SLA Geral</div>
+              <div class="ring-wrap">
+                <svg viewBox="0 0 110 110" width="100" height="100">
+                  <circle cx="55" cy="55" r="40" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="16"/>
+                  <circle cx="55" cy="55" r="40" fill="none" stroke="#7DC492" stroke-width="16"
+                    stroke-dasharray="244 251" stroke-dashoffset="63" stroke-linecap="butt"/>
+                  <circle cx="55" cy="55" r="40" fill="none" stroke="#C8922A" stroke-width="16"
+                    stroke-dasharray="7 251" stroke-dashoffset="-181"/>
+                  <text x="55" y="50" text-anchor="middle" fill="#E8AE50" font-size="14" font-weight="700" font-family="'Cormorant Garamond',serif">96.8%</text>
+                  <text x="55" y="63" text-anchor="middle" fill="#6E7585" font-size="7.5" font-family="'Outfit',sans-serif">dentro SLA</text>
+                </svg>
+                <div class="ring-legend">
+                  <span style="color:#7DC492">Dentro</span>
+                  <span style="color:#C8922A">Fora</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Table -->
-        <div class="table-box">
-          <div class="t-head">
-            <span>Analista</span><span>Total</span><span>SLA</span><span>Lead Time</span><span>Score</span>
+
+        <!-- ── POR ANALISTA ─────────────────────────────────── -->
+        <div class="dash-view" id="dv-analista">
+          <div class="table-box">
+            <div class="t-head">
+              <span>Analista</span><span>Total</span><span>SLA</span>
+            </div>
+            <div class="t-row" style="cursor:default">
+              <span>Ana Lima</span><span>18</span>
+              <span><span class="pill pill-ok">100%</span></span>
+            </div>
+            <div class="t-row" style="cursor:default">
+              <span>Bruno Souza</span><span>12</span>
+              <span><span class="pill pill-ok">97%</span></span>
+            </div>
+            <div class="t-row" style="cursor:default">
+              <span>Diego Oliveira</span><span>6</span>
+              <span><span class="pill pill-ok">100%</span></span>
+            </div>
+            <div class="t-row" style="cursor:default">
+              <span>Igor Pires</span><span>8</span>
+              <span><span class="pill pill-warn">88%</span></span>
+            </div>
           </div>
-          <div class="t-row">
-            <span>Ana Lima</span><span>18</span>
-            <span><span class="pill pill-ok">100%</span></span>
-            <span>4.1h</span><span style="color:var(--gold2)">97.0</span>
+          <div style="margin-top:.5rem;font-size:.65rem;color:var(--muted);font-family:var(--ff-m);text-align:center">Score = 70% SLA · 30% Qualidade  —  Medida DAX composta</div>
+        </div>
+
+        <!-- ── POR CATEGORIA ────────────────────────────────── -->
+        <div class="dash-view" id="dv-categoria">
+          <div class="chart-box" style="margin-bottom:.75rem">
+            <div class="chart-title">Aderência SLA por Categoria</div>
+            <div class="bar-list">
+              <div class="b-row"><span class="b-lbl">Correção</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="100%"></div></div><span class="b-val">100%</span></div>
+              <div class="b-row"><span class="b-lbl">Tab. Preços</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="96%"></div></div><span class="b-val">98.5%</span></div>
+              <div class="b-row"><span class="b-lbl">Automação</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="92%"></div></div><span class="b-val">94.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Configuração</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="89%"></div></div><span class="b-val">91.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Relatório BI</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="83%"></div></div><span class="b-val">85.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Governança</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="97%"></div></div><span class="b-val">97.0%</span></div>
+            </div>
           </div>
-          <div class="t-row">
-            <span>Bruno Souza</span><span>12</span>
-            <span><span class="pill pill-ok">97%</span></span>
-            <span>5.2h</span><span style="color:var(--gold2)">94.1</span>
-          </div>
-          <div class="t-row">
-            <span>Diego Oliveira</span><span>6</span>
-            <span><span class="pill pill-ok">100%</span></span>
-            <span>3.0h</span><span style="color:var(--gold2)">95.5</span>
-          </div>
-          <div class="t-row">
-            <span>Igor Pires</span><span>8</span>
-            <span><span class="pill pill-warn">88%</span></span>
-            <span>6.8h</span><span style="color:var(--muted)">85.6</span>
+          <div class="chart-box">
+            <div class="chart-title">% Retrabalho por Categoria</div>
+            <div class="bar-list">
+              <div class="b-row"><span class="b-lbl">Configuração</span><div class="b-track"><div class="b-fill" style="width:0;background:#D48080" data-w="12%"></div></div><span class="b-val">12.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Tab. Preços</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="5%"></div></div><span class="b-val">5.2%</span></div>
+              <div class="b-row"><span class="b-lbl">Relatório BI</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="3%"></div></div><span class="b-val">3.1%</span></div>
+              <div class="b-row"><span class="b-lbl">Automação</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="2%"></div></div><span class="b-val">2.0%</span></div>
+              <div class="b-row"><span class="b-lbl">Correção</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="1%"></div></div><span class="b-val">0.8%</span></div>
+            </div>
           </div>
         </div>
+
+        <!-- ── TENDÊNCIA ────────────────────────────────────── -->
+        <div class="dash-view" id="dv-tendencia">
+          <div class="chart-box">
+            <div class="chart-title">Volume Mensal · 2025 vs 2024  (Média Móvel 3M)</div>
+            <div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.25rem">
+              <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);padding:0 .25rem"><span>Mês</span><span>2024</span><span>2025</span><span>MM3 SLA</span><span>YoY</span></div>
+              <div style="height:1px;background:var(--line)"></div>
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text);padding:0 .25rem"><span>Janeiro</span><span>38</span><span>47</span><span>95.2%</span><span style="color:#7DC492">▲ +23.7%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text);padding:0 .25rem"><span>Fevereiro</span><span>55</span><span>52</span><span>96.1%</span><span style="color:#D48080">▼ -5.5%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text);padding:0 .25rem"><span>Março</span><span>52</span><span>61</span><span>97.0%</span><span style="color:#7DC492">▲ +17.3%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text);padding:0 .25rem"><span>Abril</span><span>47</span><span>55</span><span>96.8%</span><span style="color:#7DC492">▲ +17.0%</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text);padding:0 .25rem"><span>Maio</span><span>79</span><span>68</span><span>97.2%</span><span style="color:#D48080">▼ -13.9%</span></div>
+            </div>
+            <div style="margin-top:.75rem;font-size:.62rem;color:var(--muted);font-family:var(--ff-m)">Query T-SQL · LAG(12) + AVG OVER (ROWS 2 PRECEDING)</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -822,28 +1082,30 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
   <h2 class="display reveal">Impacto<br><strong><em>mensurável</em></strong></h2>
   <p class="body reveal">Este projeto demonstra o pipeline completo — da modelagem relacional ao dashboard executivo. Cada número abaixo é derivado diretamente das queries e medidas DAX construídas neste case.</p>
 
-  <div class="result-grid reveal">
+  <div class="result-scroll-wrap">
+<div class="result-grid reveal">
     <div class="r-card" data-n="01">
-      <div class="r-num">96.8%</div>
+      <div class="r-num" data-to="96.8" data-sfx="%">96.8%</div>
       <div class="r-label">Aderência ao SLA</div>
       <p class="r-body">Taxa calculada pelas 7 queries analíticas sobre os dados do modelo. A Q1 retorna o KPI por período, analista e categoria — com drill-down completo no Power BI sem medidas adicionais.</p>
     </div>
     <div class="r-card" data-n="02">
-      <div class="r-num">7</div>
+      <div class="r-num" data-to="7" data-sfx="">7</div>
       <div class="r-label">Queries de produção</div>
       <p class="r-body">T-SQL com window functions (LAG, AVG OVER), CTEs, Z-Score para anomalias, análise YoY e view otimizada para Power BI. Nenhuma query usa subconsultas aninhadas desnecessárias.</p>
     </div>
     <div class="r-card" data-n="03">
-      <div class="r-num">6</div>
+      <div class="r-num" data-to="6" data-sfx="">6</div>
       <div class="r-label">Medidas DAX avançadas</div>
       <p class="r-body">DIVIDE com proteção contra divisão por zero, DATEADD para variação mensal, AVERAGEX + FILTER para exclusão contextual. RLS por perfil de gestão via roles no Power BI Service.</p>
     </div>
     <div class="r-card" data-n="04">
-      <div class="r-num">1</div>
+      <div class="r-num" data-to="1" data-sfx="">1</div>
       <div class="r-label">Fonte única da verdade</div>
       <p class="r-body">A vw_solicitacoes_pbi consolida todas as dimensões em uma view desnormalizada — simplificando o modelo no Power BI, reduzindo DAX redundante e garantindo performance em DirectQuery.</p>
     </div>
   </div>
+</div>
 
   <!-- Stack -->
   <div style="margin-top:4rem">
@@ -877,20 +1139,731 @@ JOIN ops.dim_produto        p ON s.sk_produto          = p.sk_produto;</code></p
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-wrap">
+<div class="gold-line"></div>
+
+<!-- ══════════════════════════════════════════════════════
+     CASES ADICIONAIS
+══════════════════════════════════════════════════════ -->
+
+<!-- CASE: BANCO DE HORAS -->
+<section class="section" id="banco-horas">
+  <div class="label reveal">06 · Case · Power BI + Excel</div>
+  <h2 class="display reveal">Banco de Horas<br><strong>Analytics — <em>visibilidade operacional</em></strong></h2>
+  <p class="body reveal">Solução de BI desenvolvida para monitorar o saldo de horas de uma equipe operacional de forma proativa. Transformou um controle manual em planilha num dashboard interativo com alertas de vencimento em tempo real.</p>
+
+  <div class="prob-grid reveal" style="margin-top:2.5rem">
+    <div class="prob-card">
+      <div class="prob-num">01</div>
+      <div class="prob-title">O Problema</div>
+      <p class="prob-body">O controle de saldo de horas era feito manualmente, sem visibilidade sobre vencimentos críticos. Gestores não tinham como agir preventivamente sobre saldos negativos iminentes.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">02</div>
+      <div class="prob-title">A Solução</div>
+      <p class="prob-body">Pipeline Excel → Power BI com 194 registros de analistas, estrutura hierárquica (Bloco → Coordenador → Analista) e dashboard com tooltips dinâmicos por status de saldo.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-num">03</div>
+      <div class="prob-title">O Resultado</div>
+      <p class="prob-body">Visibilidade em tempo real de saldos positivos e negativos por vencimento. Gestores passaram a agir preventivamente, reduzindo a incidência de saldos críticos vencidos.</p>
+    </div>
+  </div>
+
+  <!-- Mockup do Dashboard -->
+  <div class="dash-frame reveal" style="margin-top:2.5rem">
+    <div class="dash-titlebar">
+      <div class="dash-dot" style="background:#FF5F57"></div>
+      <div class="dash-dot" style="background:#FEBC2E"></div>
+      <div class="dash-dot" style="background:#28C840"></div>
+      <span class="dash-title">Banco de Horas Analytics · Power BI Service · Gestão Operacional</span>
+    </div>
+    <div class="dash-ribbon">
+      <span class="dash-rb-item on" onclick="switchView2('bh-geral',this)">Visão Geral</span>
+      <span class="dash-rb-item" onclick="switchView2('bh-status',this)">Por Status</span>
+      <span class="dash-rb-item" onclick="switchView2('bh-venc',this)">Vencimentos</span>
+    </div>
+    <div class="dash-body">
+
+      <!-- Visão Geral -->
+      <div class="dash-view on" id="bh-geral">
+        <div class="kpi-row" id="bh-kpi-row">
+          <div class="kpi ka" data-val="194" data-sfx="" data-dur="900">
+            <div class="kpi-l">Total Analistas</div>
+            <div class="kpi-v" id="bv0">0</div>
+            <div class="kpi-delta up">Registros ativos monitorados</div>
+          </div>
+          <div class="kpi kb" data-val="68" data-sfx="%" data-dur="1000">
+            <div class="kpi-l">Saldo Positivo</div>
+            <div class="kpi-v" id="bv1">0%</div>
+            <div class="kpi-delta up">✓ Dentro do esperado</div>
+          </div>
+          <div class="kpi kd" data-val="32" data-sfx="%" data-dur="800">
+            <div class="kpi-l">Saldo Negativo</div>
+            <div class="kpi-v" id="bv2">0%</div>
+            <div class="kpi-delta dn">⚠ Requer atenção</div>
+          </div>
+          <div class="kpi kc" data-val="5" data-sfx="" data-dur="700">
+            <div class="kpi-l">Tooltip Pages</div>
+            <div class="kpi-v" id="bv3">0</div>
+            <div class="kpi-delta up">Contexto dinâmico por status</div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-title">Distribuição de Saldo por Status</div>
+          <div class="bar-list">
+            <div class="b-row"><span class="b-lbl">Positivo</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="68%"></div></div><span class="b-val">68%</span></div>
+            <div class="b-row"><span class="b-lbl">Negativo</span><div class="b-track"><div class="b-fill" style="width:0;background:#D48080" data-w="32%"></div></div><span class="b-val">32%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Por Status -->
+      <div class="dash-view" id="bh-status">
+        <div class="chart-box">
+          <div class="chart-title">Horas por Faixa de Saldo</div>
+          <div class="bar-list">
+            <div class="b-row"><span class="b-lbl">&gt; 500h</span><div class="b-track"><div class="b-fill" style="width:0;background:#D48080" data-w="38%"></div></div><span class="b-val">Crítico</span></div>
+            <div class="b-row"><span class="b-lbl">100–500h</span><div class="b-track"><div class="b-fill" style="width:0;background:#E8AE50" data-w="24%"></div></div><span class="b-val">Atenção</span></div>
+            <div class="b-row"><span class="b-lbl">19–99h</span><div class="b-track"><div class="b-fill" style="width:0;background:#7DC492" data-w="38%"></div></div><span class="b-val">Normal</span></div>
+          </div>
+        </div>
+        <div style="margin-top:.75rem;font-size:.65rem;color:var(--muted);font-family:var(--ff-m);text-align:center">Tooltips dinâmicos por status — Status Positivo · Status Negativo · Saldo a Vencer</div>
+      </div>
+
+      <!-- Vencimentos -->
+      <div class="dash-view" id="bh-venc">
+        <div class="table-box">
+          <div class="t-head"><span>Período</span><span>Registros</span><span>Status</span></div>
+          <div class="t-row"><span>Março/2026</span><span>48</span><span><span class="pill pill-warn">Vencendo</span></span></div>
+          <div class="t-row"><span>Abril/2026</span><span>82</span><span><span class="pill pill-ok">Em dia</span></span></div>
+          <div class="t-row"><span>Maio/2026</span><span>64</span><span><span class="pill pill-ok">Futuro</span></span></div>
+        </div>
+        <div style="margin-top:.5rem;font-size:.65rem;color:var(--muted);font-family:var(--ff-m);text-align:center">Alerta automático de vencimentos críticos — Power BI Service</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Stack técnica do case -->
+  <div class="stack-cols reveal" style="margin-top:2.5rem">
+    <div>
+      <div class="stack-col-title">Fonte de Dados</div>
+      <div class="stack-item">Excel (.xlsb) — 194 registros</div>
+      <div class="stack-item">Hierarquia 3 níveis</div>
+      <div class="stack-item">Pipeline automatizado</div>
+    </div>
+    <div>
+      <div class="stack-col-title">Power BI</div>
+      <div class="stack-item">5 Tooltip Pages dinâmicas</div>
+      <div class="stack-item">Formatação condicional</div>
+      <div class="stack-item">Alertas por status</div>
+    </div>
+    <div>
+      <div class="stack-col-title">Impacto</div>
+      <div class="stack-item">Gestão preventiva de saldos</div>
+      <div class="stack-item">Zero vencimentos surpresa</div>
+      <div class="stack-item">Visibilidade em tempo real</div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- CASE: MATRIZ DE GERENCIAMENTO -->
+<section class="section-full" id="matriz">
+  <div class="inner">
+    <div class="label reveal">07 · Case · Gestão de Projetos</div>
+    <h2 class="display reveal">Matriz de Gerenciamento<br><strong>Projeto <em>Kaizen — frameworks</em></strong></h2>
+    <p class="body reveal">Conjunto completo de frameworks de gestão aplicados ao redesenho do processo de precificação. Cada matriz foi construída para suportar uma fase diferente do projeto — do diagnóstico à execução — com foco em transparência e rastreabilidade.</p>
+
+    <div class="prob-grid reveal" style="margin-top:2.5rem">
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2.5rem">SWOT</div>
+        <div class="prob-title">Diagnóstico Estratégico</div>
+        <p class="prob-body">Forças identificadas: automações, dashboard gerencial e análise de dados. Fraquezas: solicitações não padronizadas, reuniões sem estrutura. Oportunidade: redesenho completo do fluxo.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2.5rem">RACI</div>
+        <div class="prob-title">Responsabilidades Claras</div>
+        <p class="prob-body">Ponto Focal (1 = Responsável) em: abertura de chamados, atualização de arquivos, manutenção do dashboard gerencial e controle de demandas. Especialista de suporte nas demais atividades.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2.5rem">GANTTER</div>
+        <div class="prob-title">Linha do Tempo</div>
+        <p class="prob-body">4 fases documentadas: Mapeamento → Definição de Processos → Implementação de Ferramentas → Validação. Cada tarefa com data início, fim, duração e dependências mapeadas.</p>
+      </div>
+    </div>
+
+    <!-- Frameworks adicionais -->
+    <div class="result-scroll-wrap">
+<div class="result-grid reveal" style="margin-top:1px">
+      <div class="r-card" data-n="P" style="text-align:center">
+        <div class="r-num" style="font-size:3rem">PUGH</div>
+        <div class="r-label">Seleção de Ferramentas</div>
+        <p class="r-body">Matriz de decisão com 4 critérios ponderados (Custo, Usabilidade, Funcionalidade, Suporte). Avaliação de 3 alternativas — ferramenta selecionada com maior pontuação composta (Score 58).</p>
+      </div>
+      <div class="r-card" data-n="5W" style="text-align:center">
+        <div class="r-num" style="font-size:3rem">5W2H</div>
+        <div class="r-label">Plano de Ação</div>
+        <p class="r-body">O quê, Por quê, Onde, Quando, Quem, Como e Quanto. Plano estruturado para expansão de portfólio com prazo até final do semestre e responsáveis mapeados em cada frente.</p>
+      </div>
+    </div>
+</div>
+
+    <!-- GANTTER visual -->
+    <div class="arch-wrap reveal" style="margin-top:2.5rem">
+      <div style="font-family:var(--ff-m);font-size:.7rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5rem">Linha do tempo — Projeto Kaizen de Processos Críticos</div>
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <!-- Fase 1 -->
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="font-size:.7rem;color:var(--muted);font-family:var(--ff-m);width:140px;flex-shrink:0;text-align:right">Mapeamento</div>
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:24px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:20%;background:rgba(125,196,146,.25);border-left:2px solid #7DC492;display:flex;align-items:center;padding-left:.5rem">
+              <span style="font-size:.6rem;color:#7DC492;font-family:var(--ff-m);white-space:nowrap">Concluído · 3 dias</span>
+            </div>
+          </div>
+          <div style="font-size:.65rem;color:#7DC492;font-family:var(--ff-m);width:56px;text-align:right;flex-shrink:0">✓ Done</div>
+        </div>
+        <!-- Fase 2 -->
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="font-size:.7rem;color:var(--muted);font-family:var(--ff-m);width:140px;flex-shrink:0;text-align:right">Def. Processos</div>
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:24px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:20%;top:0;bottom:0;width:25%;background:rgba(125,196,146,.25);border-left:2px solid #7DC492;display:flex;align-items:center;padding-left:.5rem">
+              <span style="font-size:.6rem;color:#7DC492;font-family:var(--ff-m);white-space:nowrap">Concluído · 3 dias</span>
+            </div>
+          </div>
+          <div style="font-size:.65rem;color:#7DC492;font-family:var(--ff-m);width:56px;text-align:right;flex-shrink:0">✓ Done</div>
+        </div>
+        <!-- Fase 3 -->
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="font-size:.7rem;color:var(--muted);font-family:var(--ff-m);width:140px;flex-shrink:0;text-align:right">Implementação</div>
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:24px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:45%;top:0;bottom:0;width:35%;background:rgba(232,174,80,.2);border-left:2px solid var(--gold2);display:flex;align-items:center;padding-left:.5rem">
+              <span style="font-size:.6rem;color:var(--gold2);font-family:var(--ff-m);white-space:nowrap">Em Teste · 11 dias</span>
+            </div>
+          </div>
+          <div style="font-size:.65rem;color:var(--gold2);font-family:var(--ff-m);width:56px;text-align:right;flex-shrink:0">Teste</div>
+        </div>
+        <!-- Fase 4 -->
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="font-size:.7rem;color:var(--muted);font-family:var(--ff-m);width:140px;flex-shrink:0;text-align:right">Validação</div>
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:24px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:80%;top:0;bottom:0;width:20%;background:rgba(91,143,200,.2);border-left:2px solid #5B8FC8;display:flex;align-items:center;padding-left:.5rem">
+              <span style="font-size:.6rem;color:#7BB0E0;font-family:var(--ff-m);white-space:nowrap">Pendente</span>
+            </div>
+          </div>
+          <div style="font-size:.65rem;color:#7BB0E0;font-family:var(--ff-m);width:56px;text-align:right;flex-shrink:0">Pending</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap">
+        <span style="font-size:.65rem;font-family:var(--ff-m);color:#7DC492;display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;background:#7DC492;border-radius:1px;display:inline-block"></span>Concluído</span>
+        <span style="font-size:.65rem;font-family:var(--ff-m);color:var(--gold2);display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;background:var(--gold2);border-radius:1px;display:inline-block"></span>Em Teste</span>
+        <span style="font-size:.65rem;font-family:var(--ff-m);color:#7BB0E0;display:flex;align-items:center;gap:.4rem"><span style="width:8px;height:8px;background:#7BB0E0;border-radius:1px;display:inline-block"></span>Pendente</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- CASE: DOCUMENTAÇÃO DE PROCESSOS -->
+<section class="section" id="documentacao">
+  <div class="label reveal">08 · Case · Documentação Técnica</div>
+  <h2 class="display reveal">Manual de Processos<br><strong>Gestão de <em>Tabelas de Preços</em></strong></h2>
+  <p class="body reveal">Co-autoria de documentação técnica sênior que padronizou o fluxo completo de atualização da Tabela de Preços — da solicitação via Forms até o arquivamento da versão final. Documento adotado como referência oficial pela equipe.</p>
+  <p class="body reveal">O trabalho documenta a "fonte da verdade" comercial que alimenta os canais de Vendas e Atendimento de uma grande operadora de telecomunicações, cobrindo 6 produtos e múltiplos cenários de atualização.</p>
+
+  <!-- Fluxo do processo -->
+  <div class="arch-wrap reveal" style="margin-top:2.5rem">
+    <div style="font-family:var(--ff-m);font-size:.7rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5rem">Fluxo documentado — As-Is → To-Be</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem">
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid var(--gold);padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:var(--gold);margin-bottom:.35rem;letter-spacing:.08em">01</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Recebimento</div>
+        <div style="font-size:.7rem;color:var(--muted)">Forms padronizado<br>+ Briefing estruturado</div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid var(--gold2);padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:var(--gold2);margin-bottom:.35rem;letter-spacing:.08em">02</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Análise</div>
+        <div style="font-size:.7rem;color:var(--muted)">Impactos cruzados<br>entre ofertas</div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid #7BB0E0;padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:#7BB0E0;margin-bottom:.35rem;letter-spacing:.08em">03</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Execução</div>
+        <div style="font-size:.7rem;color:var(--muted)">Atualização Excel<br>+ Regra de inativação</div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid #7DC492;padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:#7DC492;margin-bottom:.35rem;letter-spacing:.08em">04</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Validação Visual</div>
+        <div style="font-size:.7rem;color:var(--muted)">Layout + Macro VBA<br>→ PDF automático</div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid var(--gold);padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:var(--gold);margin-bottom:.35rem;letter-spacing:.08em">05</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Aprovação</div>
+        <div style="font-size:.7rem;color:var(--muted)">Validação bilateral<br>entre responsáveis</div>
+      </div>
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid #7DC492;padding:.85rem 1rem;text-align:center">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:#7DC492;margin-bottom:.35rem;letter-spacing:.08em">06</div>
+        <div style="font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.25rem">Envio & Arquivo</div>
+        <div style="font-size:.7rem;color:var(--muted)">Comunicado oficial<br>+ Registro no sistema</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produtos cobertos + métricas -->
+  <div class="result-scroll-wrap">
+<div class="result-grid reveal" style="margin-top:2rem">
+    <div class="r-card" data-n="06" style="text-align:center">
+      <div class="r-num" data-to="6" data-sfx="">6</div>
+      <div class="r-label">Produtos documentados</div>
+      <p class="r-body">Banda Larga · Móvel · TV+<br>Fone · Internet Móvel · Opcionais</p>
+    </div>
+    <div class="r-card" data-n="14" style="text-align:center">
+      <div class="r-num" data-to="14" data-sfx="">14</div>
+      <div class="r-label">Seções técnicas</div>
+      <p class="r-body">Passo a passo + ficha técnica por produto, protocolos por cenário, guias de validação e procedimentos de cadastro.</p>
+    </div>
+    <div class="r-card" data-n="90" style="text-align:center">
+      <div class="r-num" data-to="90" data-sfx="%">90%</div>
+      <div class="r-label">Integridade dos dados</div>
+      <p class="r-body">Regra de inativação (nunca exclusão) garantindo histórico completo. Checklist de validação visual antes de cada publicação.</p>
+    </div>
+    <div class="r-card" data-n="01" style="text-align:center">
+      <div class="r-num" style="font-size:2.8rem">Oficial</div>
+      <div class="r-label">Adoção pela equipe</div>
+      <p class="r-body">Documento adotado como referência única do processo. Co-autoria valida domínio técnico + habilidade de comunicação executiva.</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Entregáveis do documento -->
+  <div class="stack-cols reveal" style="margin-top:2.5rem">
+    <div>
+      <div class="stack-col-title">Processos Mapeados</div>
+      <div class="stack-item">Recebimento via Microsoft Forms</div>
+      <div class="stack-item">Análise de impactos cruzados</div>
+      <div class="stack-item">Inserção de novas cidades</div>
+      <div class="stack-item">Procedimentos de cadastro</div>
+      <div class="stack-item">Validação visual e diagramação</div>
+    </div>
+    <div>
+      <div class="stack-col-title">Automações Documentadas</div>
+      <div class="stack-item">Macro VBA → Geração PDF</div>
+      <div class="stack-item">Unificação Adobe Acrobat</div>
+      <div class="stack-item">Verificação final automatizada</div>
+      <div class="stack-item">Registro no sistema de controle</div>
+      <div class="stack-item">Arquivamento de versão final</div>
+    </div>
+    <div>
+      <div class="stack-col-title">Ferramentas & Skills</div>
+      <div class="stack-item">Documentação técnica sênior</div>
+      <div class="stack-item">Data Storytelling executivo</div>
+      <div class="stack-item">Microsoft Forms + Excel</div>
+      <div class="stack-item">VBA Expert · Adobe Acrobat</div>
+      <div class="stack-item">Governança de processos</div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- ══ CASE 09: ECOSSISTEMA VBA ══════════════════════════════ -->
+<section class="section-full" id="vba">
+  <div class="inner">
+    <div class="label reveal">09 · Case · VBA Expert</div>
+    <h2 class="display reveal">Ecossistema de<br><strong>Automação <em>VBA</em></strong></h2>
+    <p class="body reveal">8 macros interconectadas que automatizaram o ciclo completo de atualização de um documento crítico de precificação de uma grande operadora de telecomunicações. De processos totalmente manuais e repetitivos a um sistema integrado, ágil e com tratamento de erros robusto.</p>
+
+    <!-- Antes vs Depois -->
+    <div class="prob-grid reveal" style="margin-top:2.5rem">
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2rem;color:rgba(212,128,128,.2)">ANTES</div>
+        <div class="prob-title" style="color:#D48080">Manual · Lento · Frágil</div>
+        <p class="prob-body">Cada etapa da atualização exigia atenção manual: formatação de cabeçalhos aba por aba, ajuste de cidades, geração de PDF, reordenação de abas. Processo totalmente suscetível a erros humanos.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2rem;color:rgba(125,196,146,.2)">DEPOIS</div>
+        <div class="prob-title" style="color:#7DC492">Automatizado · Validado · Rastreável</div>
+        <p class="prob-body">Um clique executa o ciclo completo: lê parâmetros → aplica layout com cor dinâmica → atualiza textos e logos → agrupa cidades por tecnologia/região → ajusta paginação → gera PDF único.</p>
+      </div>
+      <div class="prob-card">
+        <div class="prob-num" style="font-size:2rem">DESIGN</div>
+        <div class="prob-title">Modularização & Retry Pattern</div>
+        <p class="prob-body">Cada macro é dividida em sub-rotinas de responsabilidade única. Cópia de imagens usa retry pattern (5–10 tentativas) para garantir robustez em ambientes com latência de clipboard.</p>
+      </div>
+    </div>
+
+    <!-- Arquitetura das macros -->
+    <div class="arch-wrap reveal" style="margin-top:2.5rem">
+      <div style="font-family:var(--ff-m);font-size:.7rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5rem">Arquitetura — 3 módulos · 8 macros · funções personalizadas</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)">
+
+        <!-- Módulo Impressão -->
+        <div style="background:var(--ink2);padding:1.25rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)">Módulo Impressão</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid var(--gold);font-family:var(--ff-m);font-size:.72rem;color:var(--text)">ImprimirPDF()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Valida limite de páginas → seleciona abas em grupo → ExportAsFixedFormat</div>
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid rgba(200,146,42,.4);font-family:var(--ff-m);font-size:.72rem;color:var(--muted)">ConfiguracoesImpressao()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">A4 + margens zero + PrintCommunication=False para performance</div>
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid rgba(200,146,42,.4);font-family:var(--ff-m);font-size:.72rem;color:var(--muted)">ReordenarAbas()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Move abas para posição final conforme Parâmetros PDF</div>
+          </div>
+        </div>
+
+        <!-- Módulo Validação -->
+        <div style="background:var(--ink2);padding:1.25rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.68rem;color:#7BB0E0;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)">Módulo Validação</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid #7BB0E0;font-family:var(--ff-m);font-size:.72rem;color:var(--text)">VerificarErros()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Carrega planilha em array de memória → varre erros de fórmula → trata células mescladas → seleciona erro e para</div>
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid rgba(123,176,224,.4);font-family:var(--ff-m);font-size:.72rem;color:var(--muted)">AtualizarFormulas()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Leitura/escrita em massa via arrays → concatenação dinâmica por categoria (BL, Móvel, TV+, Fone) → soma condicional</div>
+          </div>
+        </div>
+
+        <!-- Módulo Layout -->
+        <div style="background:var(--ink2);padding:1.25rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.68rem;color:#7DC492;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--line)">Módulo Layout</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid #7DC492;font-family:var(--ff-m);font-size:.72rem;color:var(--text)">AtualizarCabecalho()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Rotina mestre: ajusta linhas → formas com cor dinâmica → textos → logo via retry pattern</div>
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid rgba(125,196,146,.4);font-family:var(--ff-m);font-size:.72rem;color:var(--muted)">AtualizarGrupoCidades()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Dicionários em memória → agrupa por Tecnologia × Região → formatação Rich Text (vermelho/preto)</div>
+            <div style="background:var(--ink3);padding:.5rem .75rem;border-left:2px solid rgba(125,196,146,.4);font-family:var(--ff-m);font-size:.72rem;color:var(--muted)">AjustarRodape()</div>
+            <div style="font-size:.7rem;color:var(--muted);padding-left:.75rem;line-height:1.5">Calcula paginação A4 → insere/remove linhas até atingir altura exata → posiciona logo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Funções personalizadas -->
+    <div style="margin-top:2.5rem" class="reveal">
+      <div class="label">Funções personalizadas — UDFs em VBA</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1.25rem">
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">ORDENAR_CANAIS()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Converte para maiúsculas, separa por vírgula, aplica Bubble Sort alfabético e reune padronizado</div>
+        </div>
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">EXTRAIRPLANO()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Busca cirúrgica por planos (maior especificidade primeiro) + detecção de benefícios agregados</div>
+        </div>
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">PORTIN()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Detecta portabilidade no texto + regra especial para perfil Multi com plano específico</div>
+        </div>
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">TIPO_TECNOLOGIA()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Case-insensitive: detecta FIBRA, CABO ou ÁREA NÃO CABEADA em qualquer campo de texto</div>
+        </div>
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">ACENTO()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Remove acentos e caracteres especiais para normalização e comparação de strings</div>
+        </div>
+        <div style="background:var(--ink2);border:1px solid var(--line);padding:.85rem 1rem">
+          <div style="font-family:var(--ff-m);font-size:.75rem;color:var(--gold2);margin-bottom:.3rem">PERFILMÓVEL() · PERFILINTERNET()</div>
+          <div style="font-size:.75rem;color:var(--muted);line-height:1.55">Classifica perfil de venda (Multi/Single, com/sem celular) a partir do texto do campo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VBA code showcase -->
+    <div class="code-wrap reveal" style="margin-top:2rem">
+      <div style="font-family:var(--ff-m);font-size:.7rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem">Código em destaque</div>
+      <div class="code-nav" style="background:var(--ink2)">
+        <div class="ctab on" onclick="tab(this,'vba1')">AtualizarCabecalho</div>
+        <div class="ctab" onclick="tab(this,'vba2')">ObterCorDoCapitulo</div>
+        <div class="ctab" onclick="tab(this,'vba3')">ORDENAR_CANAIS</div>
+        <div class="ctab" onclick="tab(this,'vba4')">AtualizarFormulas</div>
+      </div>
+
+      <div id="vba1" class="cpanel on">
+        <pre><code class="language-vba">''' AtualizarCabecalho — Rotina MESTRE
+' Lê a tabela de parâmetros UMA única vez e aplica em sequência:
+' 1. Ajuste de Linhas   2. Layout com cor dinâmica
+' 3. Textos             4. Logo (Retry Pattern)
+Sub AtualizarCabecalho()
+    On Error GoTo TrataErro
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+
+    For i = 2 To lastRow
+        NOMEABA     = Trim(wsParam.Cells(i, 2).Value)
+        acaoCriar   = Trim(wsParam.Cells(i, 3).Value)
+
+        If UCase(acaoCriar) = "CRIAR" And AbaExiste(NOMEABA) Then
+            Set wsDestino = ThisWorkbook.Worksheets(NOMEABA)
+            wsDestino.Activate
+
+            tipoCapitulo = wsParam.Cells(i, 5).Value
+
+            ' 1. Ajustar Linhas
+            Call ProcessarLinhas(wsDestino)
+
+            If tipoCapitulo = "SVAS" Or tipoCapitulo = "OPCIONAIS" Then
+                ' Capítulos especiais: sem forma colorida
+            Else
+                ' 2. Cor dinâmica por tipo de capítulo
+                corDinamica = ObterCorDoCapitulo(tipoCapitulo)
+                ' 3. Formas (layout)
+                Call ProcessarFormas(wsDestino, corDinamica)
+            End If
+
+            ' 4. Textos e 5. Logo
+            Call ProcessarTextos(wsDestino, txtTabela, txtCapitulo, txtPagina)
+            Call ProcessarLogo(wsAux, wsDestino, nomeLogo)
+        End If
+    Next i
+
+    MsgBox "Processo concluído com sucesso!", vbInformation
+TrataErro:
+    MsgBox "Erro na linha " & i & ": " & Err.Description, vbCritical
+End Sub</code></pre>
+      </div>
+
+      <div id="vba2" class="cpanel">
+        <pre><code class="language-vba">''' ObterCorDoCapitulo — Cor dinâmica por capítulo
+' Retorna a cor RGB com base no tipo de capítulo lido da planilha.
+' Azul = Aquisição e Base (padrão de mercado)
+' Verde = Rentabilização / Blindagem (diferenciado)
+' Âmbar = SVAs e Opcionais (complementar)
+Private Const COR_OPCAO1 As Long = 11441949  ' Azul   (#1D97AE)
+Private Const COR_OPCAO2 As Long = 1270487   ' Verde  (#50B000)
+Private Const COR_OPCAO3 As Long = 192       ' Âmbar  (#FFC000)
+
+Function ObterCorDoCapitulo(tipo As String) As Long
+    Select Case UCase(Trim(tipo))
+        Case "AQUISIÇÃO E BASE"
+            ObterCorDoCapitulo = COR_OPCAO1
+
+        Case "RENTABILIZAÇÃO", "BLINDAGEM"
+            ObterCorDoCapitulo = COR_OPCAO2
+
+        Case "SVAS", "OPCIONAIS"
+            ObterCorDoCapitulo = COR_OPCAO3
+
+        Case Else
+            ObterCorDoCapitulo = COR_OPCAO1  ' Padrão seguro
+    End Select
+End Function</code></pre>
+      </div>
+
+      <div id="vba3" class="cpanel">
+        <pre><code class="language-vba">''' ORDENAR_CANAIS — UDF de normalização e ordenação
+' Converte texto para maiúsculas, separa por vírgula,
+' remove espaços, aplica Bubble Sort e reune padronizado.
+' Uso em célula: =ORDENAR_CANAIS(A1)
+Function ORDENAR_CANAIS(Texto As String) As String
+    Dim arr() As String
+    Dim i As Integer, j As Integer, temp As String
+
+    ' Trava de segurança
+    If Trim(Texto) = "" Then
+        ORDENAR_CANAIS = ""
+        Exit Function
+    End If
+
+    Texto = UCase(Texto)
+    arr   = Split(Texto, ",")
+
+    ' Kaizen de dados: remove espaços extras
+    For i = LBound(arr) To UBound(arr)
+        arr(i) = Trim(arr(i))
+    Next i
+
+    ' Bubble Sort alfabético
+    For i = LBound(arr) To UBound(arr) - 1
+        For j = i + 1 To UBound(arr)
+            If arr(i) > arr(j) Then
+                temp   = arr(i)
+                arr(i) = arr(j)
+                arr(j) = temp
+            End If
+        Next j
+    Next i
+
+    ' Reune com padrão: vírgula + espaço
+    ORDENAR_CANAIS = Join(arr, ", ")
+End Function</code></pre>
+      </div>
+
+      <div id="vba4" class="cpanel">
+        <pre><code class="language-vba">''' AtualizarFormulas — Leitura e escrita em massa
+' Carrega toda a planilha para um array de memória,
+' processa lógica de concatenação por categoria (BL, Móvel, TV+...)
+' e grava os resultados de volta em uma única operação.
+Sub AtualizarFormulas()
+    ' Carrega A2:AF_LastRow para memória (a "Grande Otimização")
+    vDados = ws.Range("A2:AF" & lastRow).Value
+
+    For i = LBound(vDados, 1) To UBound(vDados, 1)
+        valB = Trim(CStr(vDados(i, 2)))  ' Categoria (BL, Móvel, TV+...)
+        valH = Trim(CStr(vDados(i, 8)))  ' Tipo (Celular, Fibra...)
+
+        ' Lógica de concatenação por categoria (Switch otimizado)
+        Select Case valB
+            Case "BANDA LARGA"
+                resultadoAF = valC & valE & valH & valI & valJ
+            Case "MOVEL"
+                If valD = "RENTABILIZAÇÃO" Then
+                    resultadoAF = valC & valE & valL & valI & valJ
+                Else
+                    resultadoAF = valC & valE & valL & valI & valJ & valY
+                End If
+            Case "CLARO TV+"
+                resultadoAF = valC & valE & valI & valH & valJ
+        End Select
+
+        ' Soma condicional: se CELULAR, soma colunas Q:U (franquias)
+        If UCase(valH) = "CELULAR" Then
+            somaI = 0
+            For c = 17 To 21  ' Q=17 até U=21
+                If IsNumeric(vDados(i, c)) Then somaI = somaI + CDbl(vDados(i, c))
+            Next c
+            vSaidaI(i, 1) = somaI
+        End If
+    Next i
+
+    ' Grava tudo de volta em UMA operação (instantâneo)
+    ws.Range("AF2:AF" & lastRow).Value = vSaidaAF
+    ws.Range("I2:I"  & lastRow).Value = vSaidaI
+End Sub</code></pre>
+      </div>
+    </div>
+
+    <!-- Métricas do case -->
+    <div class="result-scroll-wrap">
+<div class="result-grid reveal" style="margin-top:2.5rem">
+      <div class="r-card" data-n="08" style="text-align:center">
+        <div class="r-num" data-to="8" data-sfx="">8</div>
+        <div class="r-label">Macros de produção</div>
+        <p class="r-body">3 módulos coesos: Impressão (PDF + reordenação), Validação (erros + fórmulas) e Layout (cabeçalho + cidades + rodapé).</p>
+      </div>
+      <div class="r-card" data-n="06" style="text-align:center">
+        <div class="r-num" data-to="6" data-sfx="">6</div>
+        <div class="r-label">Funções personalizadas</div>
+        <p class="r-body">UDFs reutilizáveis: normalização, ordenação, extração de planos, detecção de portabilidade, classificação de tecnologia.</p>
+      </div>
+      <div class="r-card" data-n="0" style="text-align:center">
+        <div class="r-num" style="font-size:2.8rem">1×</div>
+        <div class="r-label">Loop único — sem redundância</div>
+        <p class="r-body">A rotina mestre percorre a tabela de parâmetros uma única vez, chamando sub-rotinas especializadas. Zero loops desnecessários.</p>
+      </div>
+      <div class="r-card" data-n="10" style="text-align:center">
+        <div class="r-num" data-to="10" data-sfx="×">10×</div>
+        <div class="r-label">Retry pattern</div>
+        <p class="r-body">Cópia de imagens usa protocolo de até 10 tentativas com DoEvents entre cada uma — garante robustez em ambientes com latência de clipboard.</p>
+      </div>
+    </div>
+</div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- ══ CASE 10: FLUXO DE ANÁLISE ═══════════════════════════ -->
+<section class="section" id="analise">
+  <div class="label reveal">10 · Case · Metodologia & Processo</div>
+  <h2 class="display reveal">Fluxo de Análise<br><strong>de <em>Solicitações</em></strong></h2>
+  <p class="body reveal">Metodologia de análise crítica aplicada a cada solicitação de atualização recebida. O objetivo é garantir que nenhuma atualização incorreta chegue ao documento final — a "fonte da verdade" comercial.</p>
+  <p class="body reveal">Uma boa solicitação tem três características: <strong style="color:var(--cream)">completa</strong> (responde todas as perguntas), <strong style="color:var(--cream)">clara</strong> (sem ambiguidade) e <strong style="color:var(--cream)">contextualizada</strong> (explica o porquê).</p>
+
+  <!-- Fluxo em 3 passos -->
+  <div class="arch-wrap reveal" style="margin-top:2.5rem">
+    <div style="font-family:var(--ff-m);font-size:.7rem;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.5rem">Fluxo de análise — 3 etapas sequenciais</div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.5rem;align-items:start">
+
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid var(--gold);padding:1.25rem 1rem">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:var(--gold);margin-bottom:.5rem;letter-spacing:.1em">PASSO 01</div>
+        <div style="font-size:.9rem;font-weight:600;color:var(--cream);margin-bottom:.5rem">Recebimento &amp; Validação Imediata</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.65">
+          ▪ Data de vigência informada?<br>
+          ▪ Produto e capítulo identificados?<br>
+          ▪ Campos de perfil de venda preenchidos?<br>
+          ▪ Tipo de comercialização alinhado ao objetivo?
+        </div>
+        <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(200,146,42,.07);border-left:2px solid var(--gold);font-size:.72rem;color:var(--gold)">
+          Resultado: Solicitação válida ou devolução imediata com feedback estruturado
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;padding-top:2rem;color:var(--gold);font-size:1.2rem;opacity:.5">→</div>
+
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid #7BB0E0;padding:1.25rem 1rem">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:#7BB0E0;margin-bottom:.5rem;letter-spacing:.1em">PASSO 02</div>
+        <div style="font-size:.9rem;font-weight:600;color:var(--cream);margin-bottom:.5rem">Consistência &amp; Contexto</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.65">
+          ▪ Impactos cruzados entre produtos mapeados?<br>
+          ▪ Políticas comerciais respeitadas?<br>
+          ▪ Canais de venda, cidades e restrições conferidos?<br>
+          ▪ Contexto e justificativa presentes?
+        </div>
+        <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(123,176,224,.07);border-left:2px solid #7BB0E0;font-size:.72rem;color:#7BB0E0">
+          Resultado: Consistência garantida — solicitação avança para execução
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;padding-top:2rem;color:var(--gold);font-size:1.2rem;opacity:.5">→</div>
+
+      <div style="background:var(--ink2);border:1px solid var(--line);border-top:2px solid #7DC492;padding:1.25rem 1rem">
+        <div style="font-family:var(--ff-m);font-size:.65rem;color:#7DC492;margin-bottom:.5rem;letter-spacing:.1em">PASSO 03</div>
+        <div style="font-size:.9rem;font-weight:600;color:var(--cream);margin-bottom:.5rem">Aprovação &amp; Execução</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.65">
+          ▪ Aprovação bilateral registrada?<br>
+          ▪ Macro de atualização executada com sucesso?<br>
+          ▪ Validação visual do layout conferida?<br>
+          ▪ PDF gerado, validado e comunicado enviado?
+        </div>
+        <div style="margin-top:.75rem;padding:.5rem .75rem;background:rgba(125,196,146,.07);border-left:2px solid #7DC492;font-size:.72rem;color:#7DC492">
+          Resultado: Atualização publicada, registrada no controle e arquivada
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Benefícios mensuráveis -->
+  <div class="result-scroll-wrap">
+<div class="result-grid reveal" style="margin-top:2.5rem">
+    <div class="r-card" data-n="↑" style="text-align:center">
+      <div class="r-num" style="font-size:2.5rem">+Prod.</div>
+      <div class="r-label">Aumento de produtividade</div>
+      <p class="r-body">Checklist estruturado elimina retrabalho causado por solicitações incompletas. Equipe começa cada tarefa com total clareza do escopo.</p>
+    </div>
+    <div class="r-card" data-n="0" style="text-align:center">
+      <div class="r-num" data-to="0" data-sfx="%" style="font-size:2.8rem">0%</div>
+      <div class="r-label">Ambiguidade tolerada</div>
+      <p class="r-body">Solicitações ambíguas são devolvidas imediatamente com feedback estruturado — transforma devolução em educação do solicitante.</p>
+    </div>
+    <div class="r-card" data-n="3" style="text-align:center">
+      <div class="r-num" data-to="3" data-sfx="">3</div>
+      <div class="r-label">Etapas sequenciais</div>
+      <p class="r-body">Cada etapa tem um objetivo claro, um checklist específico e um resultado binário (avança ou devolve). Sem ambiguidade no processo.</p>
+    </div>
+    <div class="r-card" data-n="↑" style="text-align:center">
+      <div class="r-num" style="font-size:2rem">Rastr.</div>
+      <div class="r-label">Rastreabilidade total</div>
+      <p class="r-body">Cada solicitação registrada com data/hora de cada etapa, responsável, status e datas oficiais. Auditoria completa em qualquer momento.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="gold-line"></div>
+<div class="cta-wrap" id="contato">
   <div class="label" style="justify-content:center">Vamos conversar?</div>
-  <h2 class="display" style="text-align:center;max-width:700px;margin:0 auto 1.5rem">Transforme seus dados em<br><strong>decisões de <em>negócio</em></strong></h2>
-  <p class="body" style="text-align:center">Este projeto está disponível no GitHub com código completo, dados de exemplo e guia de configuração no Power BI.</p>
+  <h2 class="display" style="text-align:center;max-width:700px;margin:0 auto 1.5rem">Visão estratégica<br><strong>&amp; <em>eficiência operacional</em></strong></h2>
+  <p class="body" style="text-align:center">Perfil híbrido: entendo a urgência da estratégia comercial e executo a engenharia de dados internamente. Transformo rotinas de horas em automações de minutos.</p>
   <div class="btn-row" style="margin-top:2.5rem">
     <a href="https://www.linkedin.com/in/johnnytrigo/" target="_blank" class="btn btn-gold">linkedin.com/in/johnnytrigo</a>
-    <a href="mailto:johnny.wx@outlook.com" class="btn btn-ghost">johnny.wx@outlook.com</a>
+    <a href="mailto:johnny.trigo@outlook.com.br" class="btn btn-ghost">johnny.trigo@outlook.com.br</a>
   </div>
 </div>
 
 <!-- SCRIPTS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" onerror="window.Prism={highlightAll:function(){}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" crossorigin="anonymous" onerror="void(0)"></script>
+
 <script>
 // ── Custom cursor
 const cd = document.getElementById('cd');
@@ -905,23 +1878,161 @@ function animCur(){
 }
 animCur();
 
-// ── Counter animation
-function count(el, target, suffix, dur=1400){
+// ── Universal counter (handles int and float)
+function countTo(el, target, suffix, dur){
+  const isFloat = !Number.isInteger(target);
   const start = performance.now();
   function step(now){
-    const p = Math.min((now-start)/dur,1);
-    const ease = 1-Math.pow(1-p,3);
-    const val = typeof target === 'float' ? (ease*target).toFixed(1) : Math.round(ease*target);
+    const p = Math.min((now-start)/dur, 1);
+    const ease = 1 - Math.pow(1-p, 3);
+    const val = isFloat ? (ease*target).toFixed(1) : Math.round(ease*target);
     el.textContent = val + suffix;
-    if(p<1) requestAnimationFrame(step);
+    if(p < 1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
+}
+
+// ── Theme toggle ─────────────────────────────────────────────
+function toggleTheme(){
+  const isLight = document.documentElement.classList.toggle('light');
+  document.getElementById('theme-icon').textContent = isLight ? '☽' : '☀';
+  document.getElementById('theme-label').textContent = isLight ? 'Modo Escuro' : 'Modo Claro';
+  // Persist preference
+  try { localStorage.setItem('theme', isLight ? 'light' : 'dark'); } catch(e){}
+}
+// Restore on load
+try {
+  if(localStorage.getItem('theme') === 'light'){
+    document.documentElement.classList.add('light');
+    document.addEventListener('DOMContentLoaded',()=>{
+      const ic = document.getElementById('theme-icon');
+      const lb = document.getElementById('theme-label');
+      if(ic) ic.textContent = '☽';
+      if(lb) lb.textContent = 'Modo Escuro';
+    });
+  }
+} catch(e){}
+
+// ── Result section counter on scroll ─────────────────────────
+let resultAnimated = false;
+const resultObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !resultAnimated){
+      resultAnimated = true;
+      document.querySelectorAll('.r-num[data-to]').forEach((el, i)=>{
+        const target = parseFloat(el.dataset.to);
+        const sfx    = el.dataset.sfx || '';
+        setTimeout(()=> countTo(el, target, sfx, 1000), i * 180);
+      });
+    }
+  });
+},{threshold:0.2});
+const rGrid = document.querySelector('.result-grid');
+if(rGrid) resultObs.observe(rGrid);
+
+// ── Hero counters (existing)
+function count(el, target, suffix, dur=1400){
+  countTo(el, target, suffix, dur);
 }
 setTimeout(()=>{
   count(document.getElementById('c1'), 96.8, '%', 1600);
   count(document.getElementById('c2'), 4.2, 'h', 1200);
   count(document.getElementById('c3'), 7, '', 900);
 }, 600);
+
+// ── KPI cards: counter on viewport entry
+let kpiAnimated = false;
+const kpiObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !kpiAnimated){
+      kpiAnimated = true;
+      const cards = document.querySelectorAll('.kpi[data-val]');
+      cards.forEach((card, i)=>{
+        const el   = card.querySelector('.kpi-v');
+        const val  = parseFloat(card.dataset.val);
+        const sfx  = card.dataset.sfx || '';
+        const dur  = parseInt(card.dataset.dur) || 1000;
+        card.classList.add('counting');
+        setTimeout(()=>{
+          countTo(el, val, sfx, dur);
+          card.classList.remove('counting');
+        }, i * 120);
+      });
+    }
+  });
+},{threshold:0.3});
+const kpiRow = document.getElementById('kpi-row');
+if(kpiRow) kpiObs.observe(kpiRow);
+
+// ── KPI card click: toggle detail panel
+function toggleKpi(card){
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.kpi').forEach(k=>k.classList.remove('active'));
+  if(!isActive) card.classList.add('active');
+}
+
+// ── Reset & count: called whenever a view becomes visible
+function resetAndCount(viewEl){
+  if(!viewEl) return;
+  // Animate kpi-v elements that have data-val
+  viewEl.querySelectorAll('.kpi[data-val]').forEach((card, i)=>{
+    const el  = card.querySelector('.kpi-v');
+    if(!el) return;
+    const val = parseFloat(card.dataset.val);
+    const sfx = card.dataset.sfx || '';
+    const dur = parseInt(card.dataset.dur) || 900;
+    el.textContent = '0' + sfx;
+    card.classList.add('counting');
+    setTimeout(()=>{
+      countTo(el, val, sfx, dur);
+      setTimeout(()=> card.classList.remove('counting'), dur + 200);
+    }, i * 100);
+  });
+  // Animate bars
+  setTimeout(()=>{
+    viewEl.querySelectorAll('.b-fill').forEach(b=>{
+      const target = b.dataset.w;
+      if(!target) return;
+      b.style.width = '0';
+      requestAnimationFrame(()=>{ b.style.width = target; });
+    });
+  }, 60);
+}
+
+// ── Dashboard ribbon: switch views + reset numbers each time
+function switchView(id, el){
+  // Only affect the main PBI dashboard (dv- prefixed views)
+  document.querySelectorAll('[id^="dv-"]').forEach(v=>v.classList.remove('on'));
+  // Scope ribbon deselect to the clicked ribbon only
+  el.closest('.dash-ribbon').querySelectorAll('.dash-rb-item').forEach(t=>t.classList.remove('on'));
+  const view = document.getElementById('dv-'+id);
+  if(view){ view.classList.add('on'); el.classList.add('on'); resetAndCount(view); }
+}
+
+// ── Dashboard ribbon 2 (Banco de Horas) — also resets on every switch
+function switchView2(id, el){
+  document.querySelectorAll('#bh-geral,#bh-status,#bh-venc').forEach(v=>v.classList.remove('on'));
+  el.closest('.dash-ribbon').querySelectorAll('.dash-rb-item').forEach(t=>t.classList.remove('on'));
+  const view = document.getElementById(id);
+  if(view){ view.classList.add('on'); el.classList.add('on'); resetAndCount(view); }
+}
+
+// ── BH KPI counter on viewport entry
+let bhAnimated = false;
+const bhObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !bhAnimated){
+      bhAnimated = true;
+      const ids = [['bv0',194,'',900],['bv1',68,'%',1000],['bv2',32,'%',800],['bv3',5,'',700]];
+      ids.forEach(([id,val,sfx,dur],i)=>{
+        const el = document.getElementById(id);
+        if(el) setTimeout(()=> countTo(el,val,sfx,dur), i*120);
+      });
+    }
+  });
+},{threshold:0.3});
+const bhRow = document.getElementById('bh-kpi-row');
+if(bhRow) bhObs.observe(bhRow);
 
 // ── Code tabs
 function tab(el, id){
@@ -938,14 +2049,14 @@ const obs = new IntersectionObserver(entries=>{
 },{threshold:0.07});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// ── Animate bars on scroll
+// ── Animate bars on scroll (initial Visão Geral bars)
 const barObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       e.target.querySelectorAll('.b-fill').forEach(b=>{
-        const w = b.style.width;
-        b.style.width='0';
-        requestAnimationFrame(()=>{ b.style.width=w; });
+        const target = b.dataset.w || b.getAttribute('data-w') || b.style.width;
+        b.style.width = '0';
+        requestAnimationFrame(()=>{ b.style.width = target; });
       });
     }
   });
